@@ -1,0 +1,31 @@
+<!--<div class="form-group" [class.has-danger]="searchFailed">-->
+<!--<input id="typeahead-template"-->
+<!--type="text" class="form-control"-->
+<!--[(ngModel)]="model" [ngbTypeahead]="search"-->
+<!--placeholder="search"-->
+<!--[resultFormatter]="formatMatches"-->
+<!--[inputFormatter]="formatMatches"/>-->
+<!--<span *ngIf="searching" style="color: white;">searching...</span>-->
+<!--<div class="form-control-feedback" style="color: white;" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>-->
+<!--</div>-->
+
+<!--<ng-template #rt let-r="result" let-t="term">-->
+<!--<img [src]="'https://image.tmdb.org/t/p/w342/' + formatMatches['poster_path']" width="16">-->
+<!--{{ formatMatches['name'] || formatMatches['title']}}-->
+<!--</ng-template>-->
+
+<ng-template #rt let-r="result" let-t="term">
+<span>
+        <img [src]="'https://image.tmdb.org/t/p/w342/' + r['poster_path']" width="30">
+        {{ r['original_name'] || r['title']}}</span>
+
+</ng-template>
+
+<input id="typeahead-template"
+       type="text" class="form-control"
+       [(ngModel)]="model"
+       [ngbTypeahead]="search"
+       [resultTemplate]="rt"
+       [inputFormatter]="formatter"
+       (selectItem)="onSelect($event)"
+/>

@@ -1,0 +1,82 @@
+/* MOVIES AND SERIES LIST */
+.wrapper {
+    margin-top: 70px;
+}
+
+.container .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.row > div[class*='col-'] {
+    display: flex;
+}
+
+.card {
+    background-image: url("../../public/images/black_pattern.jpg");
+    position: relative;
+    overflow: hidden;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #534b4e
+}
+
+.card img {
+    max-width: 100%;
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.card:hover img {
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.card div {
+    text-align: center;
+    color: white;
+}
+
+.poster {
+    width: 300px;
+    height: 400px;
+}
+
+
+a:hover, a:visited, a:link, a:active
+{
+    text-decoration: none;
+}
+
+.card .title {
+    font-weight: bold;
+    font-size: 110%;
+    text-decoration: none;
+}
+
+.rating {
+    font-weight: lighter;
+}
+
+.release {
+    font-weight: lighter;
+}
+
+/* TRAILER MODAL */
+.modal-title {
+    color: white;
+}
+
+.modal-content {
+    background-color: #000000b3;
+}
+
+.modal-content .close {
+    color: white;
+}
+
+.modal-content .close:hover {
+    color: white;
+}

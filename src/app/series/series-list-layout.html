@@ -1,0 +1,21 @@
+<div class="wrapper">
+    <div class="row">
+        <div class="col-lg-3 col-md-6" *ngFor="let serie of series">
+            <a [routerLink]="['/series', 'serie', serie.id]" class="card" style="width: 18rem;">
+                <img class="card-img-top poster"
+                     src="{{serie.poster_path? 'https://image.tmdb.org/t/p/w300' + serie.poster_path: 'http://via.placeholder.com/300x450/ffffff/00000?text=No+Poster'}}"
+                     alt="Card image cap">
+                <div class="card-body">
+                    <div class="card-text">
+                        <div class="title"><span>{{serie.name}}</span></div>
+                        <div class="rating"><i class="fa fa-star" style="color: yellow;"></i> <span>{{serie.vote_average}}</span></div>
+                        <div class="release">First Air Date: <span>{{serie.first_air_date}}</span></div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <app-pager [currentPage]="pagerService.page"
+               [totalPages]="pagerService.totalPages"
+    ></app-pager>
+</div>

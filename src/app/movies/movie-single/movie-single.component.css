@@ -1,0 +1,232 @@
+.wrapper {
+    margin-top: 70px;
+}
+
+.movie-container .row > div[class*="col-"] {
+    display: unset;
+}
+
+.title {
+    font-family: 'Dosis', sans-serif;
+    font-size: 36px;
+    color: #ffffff;
+    font-weight: 700;
+    text-transform: none;
+    margin-bottom: 25px;
+}
+
+.poster-image img {
+    position: relative;
+    margin-right: 30px;
+    border: 0;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+.poster-image .sticky {
+    top: 392px;
+}
+
+.poster-buttons {
+    text-align: center;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.poster-buttons a {
+    height: 45px;
+}
+
+.btn-transform {
+    position: relative;
+    display: inline-block;
+    height: 45px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-transform .item {
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    right: 0;
+    text-align: center;
+    backface-visibility: hidden;
+    transition: transform 0.5s ease;
+    -webkit-transition: -webkit-transform 0.5s ease;
+    text-transform: uppercase;
+}
+
+.btn-transform .transform-vertical .item-1 {
+    transform: rotateX(0deg);
+}
+
+.btn-transform .transform-vertical .item-2 {
+    transform: rotateX(180deg);
+}
+
+.redbtn {
+    font-family: 'Dosis', sans-serif;
+    font-size: 14px;
+    color: #abb7c4;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #dd003f;
+    color: #ffffff;
+    padding: 13px 25px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+
+.social-btn {
+    margin-bottom: 20px;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.social-btn a {
+    color: red;
+}
+
+.social-btn i {
+    padding: 14px 14px;
+    border-radius: 50%;
+    border: 1px solid;
+}
+
+.parent-btn {
+    font-family: 'Dosis', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 35px;
+}
+
+.rate {
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.rate p {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 0;
+    margin-left: 10px;
+}
+
+.rate i {
+    font-size: 36px;
+    color: yellow;
+}
+
+.avrg {
+    font-size: 12px;
+    color: #4280bf;
+}
+
+.rating-single {
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+.rating-single .rate {
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+
+.title-hd-sm {
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #233a50;
+    padding-bottom: 8px;
+}
+
+.title-hd-sm h4 {
+    font-family: 'Dosis', sans-serif;
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+p {
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    color: #abb7c4;
+    font-weight: 300;
+    text-transform: none;
+    line-height: 24px !important;
+}
+
+.cast-it {
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 30px;
+}
+
+.cast-left {
+    width: 50%;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.sb-it {
+    margin-bottom: 30px;
+}
+
+.sb-it h6 {
+    font-family: 'Dosis', sans-serif;
+    font-size: 17px;
+    color: #dfeeff;
+    font-weight: bold;
+    text-transform: capitalize;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 991px) {
+    .poster-image .sticky {
+        max-width: 400px;
+    }
+
+    .poster-image img {
+        display: flex;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}

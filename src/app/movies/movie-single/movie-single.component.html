@@ -1,0 +1,111 @@
+<div class="wrapper">
+    <div class="movie-container">
+        <div class="row">
+
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="poster-image sticky">
+                    <img src="{{movie?.poster_path? 'https://image.tmdb.org/t/p/w342/' + movie.poster_path : 'http://via.placeholder.com/342x513?text=No%20Poster%20Image'}}"
+                         alt="Poster">
+                </div>
+                <div class="poster-buttons" *ngIf="movie?.videos['results'].length != 0">
+                    <div class="btn-transform transform-vertical red">
+                        <div (click)="openVerticallyCentered(content)" class="youtube item item-1 redbtn"> Watch
+                            Trailer
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="main-content">
+                    <h1 class="title">{{movie?.title}}</h1>
+
+                    <div class="social-btn">
+                        <a href="#" class="parent-btn"><i class="fa fa-heart"></i>&nbsp;Add to Favorite</a>
+                        <a href="#" class="parent-btn"><i class="fa fa-thumbs-up"></i>&nbsp;Like</a>
+                    </div>
+
+                    <div class="rating-single">
+                        <div class="rate">
+                            <i class="fa fa-star"></i>
+                            <p><span>{{movie?.vote_average}}</span> /10<br>
+                                <span class="avrg">{{movie?.vote_count}} Votes</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div class="content">
+                            <div class="overview">
+                                <div class="row">
+                                    <div class="col-md-8 col-sm-12 col-xs-12">
+                                        <div class="title-hd-sm">
+                                            <h4>Overview</h4>
+                                        </div>
+                                        <p>{{movie?.overview}}</p>
+                                        <div class="title-hd-sm">
+                                            <h4>Cast</h4>
+                                        </div>
+                                        <div class="cast-item" *ngFor="let cast of movie?.credits['cast'] | slice:0:7">
+                                            <div class="cast-it">
+                                                <div class="cast-left">
+                                                    <img src="{{cast['profile_path']? 'https://image.tmdb.org/t/p/w45' + cast['profile_path'] : 'http://via.placeholder.com/45x45?text=No%20Profile%20Image'}}"
+                                                         alt="Actor picture">
+                                                    <p class="actor" data-toggle="tooltip" data-placement="top"
+                                                       title="{{cast['name']}}">&nbsp;{{cast['name'] | slice:0:20}}</p>
+                                                </div>
+                                                <p class="character" data-toggle="tooltip" data-placement="top"
+                                                   title="{{cast['character']}}">as {{cast['character']}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-xs-12 col-sm-12">
+                                        <div class="title-hd-sm">
+                                            <h4>Info</h4>
+                                        </div>
+                                        <div class="sb-it" *ngIf="movie?.homepage != null">
+                                            <p>
+                                                <a href="{{movie.homepage}}">Homepage</a>
+                                            </p>
+                                        </div>
+                                        <div class="sb-it">
+                                            <h6>Director: </h6>
+                                            <p>{{movie?.credits['crew'][1]['name']}}</p>
+                                        </div>
+                                        <div class="sb-it">
+                                            <h6>Genres:</h6>
+                                            <p><span *ngFor="let genre of movie?.genres; let i = index">
+                                                {{genre['name']}}<span *ngIf="i < movie.genres.length - 1">, </span>
+                                            </span></p>
+                                        </div>
+                                        <div class="sb-it">
+                                            <h6>Release</h6>
+                                            <p>{{movie?.release_date}}</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Trailer</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <iframe width="100%" height="315" [src]="trailer" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>

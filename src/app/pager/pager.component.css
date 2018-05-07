@@ -1,0 +1,29 @@
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination > li > a {
+    background-color: #534b4e !important;
+}
+
+.page-item {
+    border-radius: 20%;
+}
+
+.page-item > a {
+    background-color: #393134;
+    color: #9c9195;
+}
+
+.page-item > a:hover {
+    color: white;
+}
+
+.page-link {
+    border: unset;
+
+}
+
+.page-link:focus {
+    box-shadow: unset;
+}

@@ -1,0 +1,21 @@
+<div class="wrapper">
+    <div class="row">
+        <div class="col-lg-3 col-md-6" *ngFor="let movie of movies">
+            <a [routerLink]="['/movies', 'movie', movie.id]" class="card" style="width: 18rem;">
+                <img class="card-img-top poster"
+                     src="{{movie.poster_path? 'https://image.tmdb.org/t/p/w300' + movie.poster_path: 'http://via.placeholder.com/300x450/ffffff/00000?text=No+Poster'}}"
+                     alt="Card image cap">
+                <div class="card-body">
+                    <div class="card-text">
+                        <div class="title"><span>{{movie.title}}</span></div>
+                        <div class="rating"><i class="fa fa-star" style="color: yellow;"></i> <span><b>{{movie.vote_average}}</b></span></div>
+                        <div class="release">Release: <span><b>{{movie.release_date}}</b></span></div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <app-pager [currentPage]="pagerService.page"
+               [totalPages]="pagerService.totalPages"
+    ></app-pager>
+</div>
