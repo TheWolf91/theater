@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {of} from "rxjs/observable/of";
-import {Result} from "./result.model";
 import {Observable} from "rxjs/Observable";
 
 @Injectable()
@@ -25,7 +24,7 @@ export class SearchService {
 
         return this.http
             .get(this.searchQuery, {params})
-            .map(response => response['results']);
+            .map(response => response['results'].slice(0, 6));
     }
 
 }

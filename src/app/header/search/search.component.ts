@@ -1,10 +1,8 @@
-import {Component, EventEmitter, Output} from "@angular/core";
+import {Component} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {SearchService} from "./search.service";
-import {of} from "rxjs/observable/of";
 import 'rxjs/Rx';
-import {Result} from "./result.model";
 import {Router} from "@angular/router";
 
 @Component({
@@ -12,7 +10,6 @@ import {Router} from "@angular/router";
     templateUrl: './search.component.html'
 })
 export class SearchComponent {
-    results: Result[] = [];
     model: any;
     searching = false;
     searchFailed = false;

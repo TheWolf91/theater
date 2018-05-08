@@ -9,8 +9,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-serie-single',
-    templateUrl: './serie-single.component.html',
-    styleUrls: ['./serie-single.component.css']
+    templateUrl: './serie-single.component.html'
 })
 export class SerieSingleComponent {
     serie: Serie;

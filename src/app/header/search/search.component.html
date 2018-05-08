@@ -15,17 +15,15 @@
 <!--</ng-template>-->
 
 <ng-template #rt let-r="result" let-t="term">
-<span>
-        <img [src]="'https://image.tmdb.org/t/p/w342/' + r['poster_path']" width="30">
-        {{ r['original_name'] || r['title']}}</span>
-
+        <img *ngIf="r['poster_path']" [src]="'https://image.tmdb.org/t/p/w92/' + r['poster_path']" width="30">
+        {{ r['original_name'] || r['title']}} ({{r['release_date'] || r['first_air_date'] | date:'y'}})
 </ng-template>
 
 <input id="typeahead-template"
        type="text" class="form-control"
+       placeholder="Search Movies/Series"
        [(ngModel)]="model"
        [ngbTypeahead]="search"
        [resultTemplate]="rt"
-       [inputFormatter]="formatter"
        (selectItem)="onSelect($event)"
 />

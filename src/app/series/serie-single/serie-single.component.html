@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <div class="serie-container">
+    <div class="single-container">
         <div class="row">
 
             <div class="col-md-4 col-sm-12 col-xs-12">
@@ -9,7 +9,7 @@
                 </div>
                 <div class="poster-buttons" *ngIf="serie?.videos['results'].length != 0">
                     <div class="btn-transform transform-vertical red">
-                        <div (click)="openVerticallyCentered(content)" class="youtube item item-1 redbtn"> Watch Trailer</div>
+                        <div (click)="openVerticallyCentered(content)" class="youtube item item-1 redbtn">Watch Trailer</div>
                     </div>
                 </div>
             </div>
@@ -48,9 +48,9 @@
                                             <div class="cast-it">
                                                 <div class="cast-left">
                                                     <img src="{{cast['profile_path']? 'https://image.tmdb.org/t/p/w45' + cast['profile_path'] : 'http://via.placeholder.com/45x45?text=No%20Profile%20Image'}}" alt="Actor picture">
-                                                    <p class="actor" data-toggle="tooltip" data-placement="top" title="{{cast['name']}}">&nbsp;{{cast['name'] | slice:0:20}}</p>
+                                                    <p class="actor" data-toggle="tooltip" data-placement="top" title="{{cast['name']}}">&nbsp;{{cast['name'].length > 20 ? (cast['name'] | slice:0:20) + '...' : cast['name']}}</p>
                                                 </div>
-                                                <p class="character" data-toggle="tooltip" data-placement="top" title="{{cast['character']}}">as {{cast['character']}}</p>
+                                                <p class="character" data-toggle="tooltip" data-placement="top" title="{{cast['character']}}"> ... {{cast['character'].substring(0, cast['character'].indexOf('/'))}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -91,7 +91,6 @@
                                             <p>{{serie?.episode_run_time}} min</p>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -117,29 +116,3 @@
         <button type="button" class="btn btn-light" (click)="c('Close click')">Close</button>
     </div>
 </ng-template>
-
-
-<!--<div class="wrapper">-->
-<!--<div class="backdrop-image">-->
-
-<!--</div>-->
-<!--<div class="container">-->
-<!--<div class="poster-image">-->
-<!--<img src="https://image.tmdb.org/t/p/w342/ooBGRQBdbGzBxAVfExiO8r7kloA.jpg" alt="" class="img-fluid">-->
-<!--</div>-->
-<!--<div class="info-container">-->
-<!--<div class="title"><h1>The Big Bang Theory</h1></div>-->
-<!--<div class="social-container">X   O</div>-->
-<!--<div class="meta-container">-->
-<!--<span>First Air Date 2007</span>-->
-<!--<span>8 Seasons</span>-->
-<!--<span>Comedy</span>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-
-
-<!--https://image.tmdb.org/t/p/-->
-<!--backdrop: /nGsNruW3W27V6r4gkyc3iiEGsKR.jpg-->
-<!--poster w300: /ooBGRQBdbGzBxAVfExiO8r7kloA.jpg-->

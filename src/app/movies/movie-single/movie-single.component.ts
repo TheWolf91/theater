@@ -8,8 +8,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'app-movie-single',
-    templateUrl: './movie-single.component.html',
-    styleUrls: ['./movie-single.component.css']
+    templateUrl: './movie-single.component.html'
 })
 export class MovieSingleComponent {
     movie: Movie;
