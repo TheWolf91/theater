@@ -24,7 +24,7 @@ export class SearchService {
 
         return this.http
             .get(this.searchQuery, {params})
-            .map(response => response['results'].slice(0, 6));
+            .map(response => response['results'].slice(0, 8));
     }
 
 }

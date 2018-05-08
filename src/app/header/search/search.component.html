@@ -1,27 +1,13 @@
-<!--<div class="form-group" [class.has-danger]="searchFailed">-->
-<!--<input id="typeahead-template"-->
-<!--type="text" class="form-control"-->
-<!--[(ngModel)]="model" [ngbTypeahead]="search"-->
-<!--placeholder="search"-->
-<!--[resultFormatter]="formatMatches"-->
-<!--[inputFormatter]="formatMatches"/>-->
-<!--<span *ngIf="searching" style="color: white;">searching...</span>-->
-<!--<div class="form-control-feedback" style="color: white;" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>-->
-<!--</div>-->
-
-<!--<ng-template #rt let-r="result" let-t="term">-->
-<!--<img [src]="'https://image.tmdb.org/t/p/w342/' + formatMatches['poster_path']" width="16">-->
-<!--{{ formatMatches['name'] || formatMatches['title']}}-->
-<!--</ng-template>-->
-
 <ng-template #rt let-r="result" let-t="term">
-        <img *ngIf="r['poster_path']" [src]="'https://image.tmdb.org/t/p/w92/' + r['poster_path']" width="30">
-        {{ r['original_name'] || r['title']}} ({{r['release_date'] || r['first_air_date'] | date:'y'}})
+        <span *ngIf="r['original_name'] || r['title']">
+                <img *ngIf="r['poster_path']" [src]="'https://image.tmdb.org/t/p/w92/' + r['poster_path']" width="30">
+        {{ r['original_name'] || r['title']}} ({{(r['release_date'] || r['first_air_date'] | date:'y')}})
+        </span>
 </ng-template>
 
-<input id="typeahead-template"
+<input style="font-family: FontAwesome;" id="typeahead-template"
        type="text" class="form-control"
-       placeholder="Search Movies/Series"
+       placeholder="&#xf002;  Movies / Series"
        [(ngModel)]="model"
        [ngbTypeahead]="search"
        [resultTemplate]="rt"

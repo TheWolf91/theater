@@ -52,8 +52,7 @@
                                                     <p class="actor" data-toggle="tooltip" data-placement="top"
                                                        title="{{cast['name']}}">&nbsp;{{cast['name'].length > 20 ? (cast['name'] | slice:0:20) + '...' : cast['name']}}</p>
                                                 </div>
-                                                <p class="character" data-toggle="tooltip" data-placement="top"
-                                                   title="{{cast['character']}}"> ... {{cast['character'].substring(0, cast['character'].indexOf('/'))}}</p>
+                                                <p class="character" data-toggle="tooltip" data-placement="top" title="{{cast['character']}}"> as {{cast['character'].length > 20 ? (cast['character'].indexOf('/') > 0 ? cast['character'].substring(0, cast['character'].indexOf('/')) : (cast['character'] | slice:0:20) + '...') : cast['character']}}</p>
                                             </div>
                                         </div>
                                     </div>
