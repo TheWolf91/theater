@@ -13,6 +13,8 @@ import {AccountService} from "./account.service";
 export class AccountComponent implements OnInit {
     accountSettingsForm: FormGroup;
     accountPasswordForm: FormGroup;
+    usernameExists: boolean = false;
+    emailExists: boolean = false;
     settingsUpdated: boolean = false;
     passwordChanged: boolean = false;
     oldPasswordError: string;
@@ -55,9 +57,19 @@ export class AccountComponent implements OnInit {
     }
 
     onUpdate() {
+        this.usernameExists = false;
+        this.emailExists = false;
+
         const user = new User(this.accountSettingsForm.controls.username.value, this.accountSettingsForm.controls.email.value);
+
         this.accountService.updateUser(user)
             .catch(err => {
+                if (err['error']['error']['errors']['username'] && err['error']['error']['errors']['username']['kind'] == 'unique') {
+                    this.usernameExists = true;
+                }
+                if (err['error']['error']['errors']['email'] && err['error']['error']['errors']['email']['kind'] == 'unique') {
+                    this.emailExists = true;
+                }
                 return Observable.empty();
             })
             .subscribe(res => {

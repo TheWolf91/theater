@@ -9,12 +9,13 @@ import {Observable} from "rxjs/Observable";
     selector: 'app-signup',
     templateUrl: './signup.component.html'
 })
-export class SignupComponent implements OnInit{
+export class SignupComponent implements OnInit {
     signupForm: FormGroup;
-    usernameExists: boolean;
-    emailExists: boolean;
+    usernameExists: boolean = false;
+    emailExists: boolean = false;
 
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService) {
+    }
 
     onSubmit() {
         this.usernameExists = false;
