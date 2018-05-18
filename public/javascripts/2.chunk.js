@@ -518,9 +518,11 @@ var forms_1 = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular
 var auth_service_1 = __webpack_require__(/*! ../auth.service */ "./src/app/auth/auth.service.ts");
 var user_model_1 = __webpack_require__(/*! ../user.model */ "./src/app/auth/user.model.ts");
 var Observable_1 = __webpack_require__(/*! rxjs/Observable */ "./node_modules/rxjs/Observable.js");
+var router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/esm5/router.js");
 var SignupComponent = /** @class */ (function () {
-    function SignupComponent(authService) {
+    function SignupComponent(authService, router) {
         this.authService = authService;
+        this.router = router;
         this.usernameExists = false;
         this.emailExists = false;
     }
@@ -539,7 +541,7 @@ var SignupComponent = /** @class */ (function () {
             }
             return Observable_1.Observable.empty();
         })
-            .subscribe(function (res) { return console.log(res); });
+            .subscribe(function (res) { return _this.router.navigate(['user', 'signin']); });
         this.signupForm.reset();
     };
     SignupComponent.prototype.passwordsShouldMatch = function (fGroup) {
@@ -575,7 +577,7 @@ var SignupComponent = /** @class */ (function () {
             selector: 'app-signup',
             template: __webpack_require__(/*! ./signup.component.html */ "./src/app/auth/signup/signup.component.html")
         }),
-        __metadata("design:paramtypes", [auth_service_1.AuthService])
+        __metadata("design:paramtypes", [auth_service_1.AuthService, router_1.Router])
     ], SignupComponent);
     return SignupComponent;
 }());

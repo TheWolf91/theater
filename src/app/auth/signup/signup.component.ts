@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {User} from "../user.model";
 import {Observable} from "rxjs/Observable";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -14,7 +15,7 @@ export class SignupComponent implements OnInit {
     usernameExists: boolean = false;
     emailExists: boolean = false;
 
-    constructor(private authService: AuthService) {
+    constructor(private authService: AuthService, private router: Router) {
     }
 
     onSubmit() {
@@ -38,7 +39,7 @@ export class SignupComponent implements OnInit {
                 }
                 return Observable.empty()
             })
-            .subscribe(res => console.log(res));
+            .subscribe(res => this.router.navigate(['user', 'signin']));
         this.signupForm.reset();
     }
 
