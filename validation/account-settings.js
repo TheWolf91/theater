@@ -11,6 +11,10 @@ module.exports = function validateAccountSettingsInput(data) {
         errors.username = 'Username length must be between 4 and 10'
     }
 
+    if (!Validator.isAlphanumeric(data.username)) {
+        errors.username = 'Username can contain only letters and numbers'
+    }
+
     if (Validator.isEmpty(data.username)) {
         errors.username = 'Username field is required';
     }

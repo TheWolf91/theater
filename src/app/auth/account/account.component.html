@@ -12,13 +12,13 @@
                         <i style="color: white;" class="fa fa-pencil fa-2x"></i>
                     </div>
                     <div *ngIf="!accountSettingsForm.get('username').valid &&
-                     accountSettingsForm.get('username').touched" class="errors col-lg-12">
+                     accountSettingsForm.get('username').touched" class="errors col-lg-12 text-danger font-weight-bold">
                         <div *ngIf="accountSettingsForm.get('username').errors['required']"
-                             class="text-danger font-weight-bold">This field is required
+                        >This field is required
                         </div>
                         <div *ngIf="accountSettingsForm.get('username').errors['minlength'] ||
                          accountSettingsForm.get('username').errors['maxlength']"
-                             class="text-danger font-weight-bold">Username length must be between 4 and 10
+                        >Username length must be between 4 and 10
                         </div>
                     </div>
                 </div>
@@ -31,12 +31,12 @@
                         <i style="color: white;" class="fa fa-pencil fa-2x"></i>
                     </div>
                     <div *ngIf="!accountSettingsForm.get('email').valid &&
-                     accountSettingsForm.get('email').touched" class="errors col-lg-12">
+                     accountSettingsForm.get('email').touched" class="errors col-lg-12 text-danger font-weight-bold">
                         <div *ngIf="accountSettingsForm.get('email').errors['required']"
-                             class="text-danger font-weight-bold">This field is required
+                        >This field is required
                         </div>
                         <div *ngIf="accountSettingsForm.get('email').errors['pattern']"
-                             class="text-danger font-weight-bold">Email is not valid
+                        >Email is not valid
                         </div>
                     </div>
                 </div>
@@ -55,18 +55,19 @@
                 <div class="form-group row justify-content-center">
                     <label for="oldPassword" class="col-lg-1 col-form-label">Old</label>
                     <div class="col-lg-10">
-                        <input (keydown)="oldPasswordError? oldPasswordError = null : null" type="password" class="form-control" id="oldPassword" formControlName="oldPassword">
+                        <input (keydown)="oldPasswordError? oldPasswordError = null : null" type="password"
+                               class="form-control" id="oldPassword" formControlName="oldPassword">
                     </div>
                     <div class="col-lg-1">
                         <i style="color: white;" class="fa fa-pencil fa-2x"></i>
                     </div>
                     <div *ngIf="!accountPasswordForm.get('oldPassword').valid &&
-                     accountPasswordForm.get('oldPassword').touched" class="errors col-lg-12">
+                     accountPasswordForm.get('oldPassword').touched" class="errors col-lg-12 text-danger font-weight-bold">
                         <div *ngIf="accountPasswordForm.get('oldPassword').errors['required']"
-                             class="text-danger font-weight-bold">This field is required
+                        >This field is required
                         </div>
                     </div>
-                    <div *ngIf="oldPasswordError" class="errors col-lg-12 text-danger font-weight-bold">
+                    <div *ngIf="oldPasswordError" class="errors col-lg-12 text-danger font-weight-bold text-danger font-weight-bold">
                         {{oldPasswordError}}
                     </div>
                 </div>
@@ -80,13 +81,13 @@
                         <i style="color: white;" class="fa fa-pencil fa-2x"></i>
                     </div>
                     <div *ngIf="!accountPasswordForm.get('password').valid &&
-                     accountPasswordForm.get('password').touched" class="errors col-lg-12">
+                     accountPasswordForm.get('password').touched" class="errors col-lg-12 text-danger font-weight-bold">
                         <div *ngIf="accountPasswordForm.get('password').errors['required']"
-                             class="text-danger font-weight-bold">This field is required
+                        >This field is required
                         </div>
                         <div *ngIf="accountPasswordForm.get('password').errors['minlength'] ||
                         accountPasswordForm.get('password').errors['maxlength']"
-                             class="text-danger font-weight-bold">Password length must be between 8 and 16
+                        >Password length must be between 8 and 16
                         </div>
                     </div>
                 </div>
@@ -101,12 +102,12 @@
                         <i style="color: white;" class="fa fa-pencil fa-2x"></i>
                     </div>
                     <div *ngIf="!accountPasswordForm.get('confirmPassword').valid &&
-                     accountPasswordForm.get('confirmPassword').touched" class="errors col-lg-12">
+                     accountPasswordForm.get('confirmPassword').touched" class="errors col-lg-12 text-danger font-weight-bold">
                         <div *ngIf="accountPasswordForm.get('confirmPassword').errors['required']"
-                             class="text-danger font-weight-bold">This field is required
+                        >This field is required
                         </div>
                         <div *ngIf="accountPasswordForm.errors && accountPasswordForm.errors['mismatch']"
-                             class="text-danger font-weight-bold">This password and new password don't match
+                        >This password and new password don't match
                         </div>
                     </div>
                 </div>

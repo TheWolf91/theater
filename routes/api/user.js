@@ -30,8 +30,8 @@ router.post('/signup', function (req, res, next) {
     });
 
     let user = new User({
-        username: req.body.username,
-        email: req.body.email,
+        username: req.body.username.toLowerCase(),
+        email: req.body.email.toLowerCase(),
         password: bcrypt.hashSync(req.body.password, 10)
 
     });

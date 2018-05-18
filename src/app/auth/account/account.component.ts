@@ -26,6 +26,7 @@ export class AccountComponent implements OnInit {
             username: new FormControl(this.user.username ? this.user.username : null,
                 [
                     Validators.required,
+                    Validators.pattern("^(\\d|\\w)+$"),
                     Validators.minLength(4),
                     Validators.maxLength(10)
                 ]),

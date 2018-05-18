@@ -13,6 +13,10 @@ module.exports = function validateSignupInput(data) {
         errors.username = 'Username length must be between 4 and 10';
     }
 
+    if (!Validator.isAlphanumeric(data.username)) {
+        errors.username = 'Username can contain only letters and numbers'
+    }
+
     if (!Validator.isEmail(data.email)) {
         errors.email = 'Email is not valid';
     }
