@@ -1,14 +1,18 @@
-/* MOVIES AND SERIES LIST */
+/* GENERIC */
 .wrapper {
-    margin-top: 70px;
+    margin-top: 90px;
 }
+
+/* HEADER */
+
+/* MOVIES AND SERIES LIST */
 
 .container .row {
     display: flex;
     flex-wrap: wrap;
 }
 
-.row > div[class*='col-'] {
+.list > div[class*='col-'] {
     display: flex;
 }
 
@@ -65,10 +69,6 @@ a:hover, a:visited, a:link, a:active
 }
 
 /* SINGLE MOVIE/SERIE */
-
-.wrapper {
-    margin-top: 70px;
-}
 
 .single-container .row > div[class*="col-"] {
     display: unset;
@@ -317,4 +317,14 @@ p {
 
 .modal-content .close:hover {
     color: white;
+}
+
+/* USER */
+form label {
+    color: white;
+}
+
+.sign {
+    margin-left: auto;
+    margin-right: auto;
 }

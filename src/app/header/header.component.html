@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" [routerLink]="['movies']">Navbar</a>
+        <a class="navbar-brand" [routerLink]="['movies']"><img src="/images/navbar_brand.png" alt=""></a>
         <button (click)="isCollapsed = !isCollapsed"
                 [attr.aria-expanded]="!isCollapsed" class="navbar-toggler" type="button" data-toggle="collapse"
                 aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
@@ -16,9 +16,9 @@
                         Movies
                     </a>
                     <div ngbDropdownMenu aria-labelledby="moviesDropdown">
-                        <a class="dropdown-item" [routerLink]="['movies', 'latest']">Latest</a>
-                        <a class="dropdown-item" [routerLink]="['movies', 'top-rated']">Top Rated</a>
-                        <a class="dropdown-item" [routerLink]="['movies', 'most-voted']">Most Voted</a>
+                        <a [routerLinkActive]="['active']" class="dropdown-item" [routerLink]="['movies', 'latest']">Latest</a>
+                        <a [routerLinkActive]="['active']" class="dropdown-item" [routerLink]="['movies', 'top-rated']">Top Rated</a>
+                        <a [routerLinkActive]="['active']" class="dropdown-item" [routerLink]="['movies', 'most-voted']">Most Voted</a>
                     </div>
                 </li>
 
@@ -29,9 +29,9 @@
                         TV Series
                     </a>
                     <div ngbDropdownMenu aria-labelledby="seriesDropdown">
-                        <a class="dropdown-item" [routerLink]="['series', 'on-the-air']">On The Air</a>
-                        <a class="dropdown-item" [routerLink]="['series', 'top-rated']">Top Rated</a>
-                        <a class="dropdown-item" [routerLink]="['series', 'most-popular']">Most Popular</a>
+                        <a [routerLinkActive]="['active']" class="dropdown-item" [routerLink]="['series', 'on-the-air']">On The Air</a>
+                        <a [routerLinkActive]="['active']" class="dropdown-item" [routerLink]="['series', 'top-rated']">Top Rated</a>
+                        <a [routerLinkActive]="['active']" class="dropdown-item" [routerLink]="['series', 'most-popular']">Most Popular</a>
                     </div>
                 </li>
 
@@ -43,11 +43,11 @@
                     </a>
                     <div ngbDropdownMenu aria-labelledby="userDropdown">
                         <!-- Logged in -->
-                        <a class="dropdown-item" href="#">Profile</a>
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <a *ngIf="isLoggedIn()" [routerLinkActive]="['active']" class="dropdown-item" [routerLink]="['user', 'account']">Account</a>
+                        <a *ngIf="isLoggedIn()" class="dropdown-item" [routerLink]="['movies', 'latest']" (click)="onLogout()">Logout</a>
                         <!-- Not logged yet -->
-                        <a class="dropdown-item" href="#">Login</a>
-                        <a class="dropdown-item" href="#">Signup</a>
+                        <a *ngIf="!isLoggedIn()" [routerLinkActive]="['active']" class="dropdown-item" [routerLink]="['user', 'signin']">Login</a>
+                        <a *ngIf="!isLoggedIn()" [routerLinkActive]="['active']" class="dropdown-item" [routerLink]="['user', 'signup']">Signup</a>
                     </div>
                 </li>
             </ul>

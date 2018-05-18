@@ -1,0 +1,122 @@
+<div class="container">
+    <div class="wrapper col-md-12">
+        <form *ngIf="user" class="account-settings" (ngSubmit)="onUpdate()" [formGroup]="accountSettingsForm">
+            <fieldset>
+                <legend>Account Settings</legend>
+                <div class="form-group row justify-content-center">
+                    <label for="username" class="col-lg-1 col-form-label">Username</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="username" formControlName="username">
+                    </div>
+                    <div class="col-lg-1">
+                        <i style="color: white;" class="fa fa-pencil fa-2x"></i>
+                    </div>
+                    <div *ngIf="!accountSettingsForm.get('username').valid &&
+                     accountSettingsForm.get('username').touched" class="errors col-lg-12">
+                        <div *ngIf="accountSettingsForm.get('username').errors['required']"
+                             class="text-danger font-weight-bold">This field is required
+                        </div>
+                        <div *ngIf="accountSettingsForm.get('username').errors['minlength'] ||
+                         accountSettingsForm.get('username').errors['maxlength']"
+                             class="text-danger font-weight-bold">Username length must be between 4 and 10
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row justify-content-center">
+                    <label for="email" class="col-lg-1 col-form-label">Email</label>
+                    <div class="col-lg-10">
+                        <input type="email" class="form-control" id="email" formControlName="email">
+                    </div>
+                    <div class="col-lg-1">
+                        <i style="color: white;" class="fa fa-pencil fa-2x"></i>
+                    </div>
+                    <div *ngIf="!accountSettingsForm.get('email').valid &&
+                     accountSettingsForm.get('email').touched" class="errors col-lg-12">
+                        <div *ngIf="accountSettingsForm.get('email').errors['required']"
+                             class="text-danger font-weight-bold">This field is required
+                        </div>
+                        <div *ngIf="accountSettingsForm.get('email').errors['pattern']"
+                             class="text-danger font-weight-bold">Email is not valid
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="settingsUpdated" class="success col-lg-12 text-success font-weight-bold">Settings updated
+                </div>
+                <button type="submit" [disabled]="!accountSettingsForm.valid ||
+                 (accountSettingsForm.controls.username.value == user.username &&
+                  accountSettingsForm.controls.email.value == user.email)" class="btn btn-primary pull-right">Update
+                </button>
+            </fieldset>
+        </form>
+        <!-- Password change -->
+        <form *ngIf="user" (ngSubmit)="onChangePassword()" class="account-settings" [formGroup]="accountPasswordForm">
+            <fieldset>
+                <legend>Password</legend>
+                <div class="form-group row justify-content-center">
+                    <label for="oldPassword" class="col-lg-1 col-form-label">Old</label>
+                    <div class="col-lg-10">
+                        <input (keydown)="oldPasswordError? oldPasswordError = null : null" type="password" class="form-control" id="oldPassword" formControlName="oldPassword">
+                    </div>
+                    <div class="col-lg-1">
+                        <i style="color: white;" class="fa fa-pencil fa-2x"></i>
+                    </div>
+                    <div *ngIf="!accountPasswordForm.get('oldPassword').valid &&
+                     accountPasswordForm.get('oldPassword').touched" class="errors col-lg-12">
+                        <div *ngIf="accountPasswordForm.get('oldPassword').errors['required']"
+                             class="text-danger font-weight-bold">This field is required
+                        </div>
+                    </div>
+                    <div *ngIf="oldPasswordError" class="errors col-lg-12 text-danger font-weight-bold">
+                        {{oldPasswordError}}
+                    </div>
+                </div>
+
+                <div class="form-group row justify-content-center">
+                    <label for="password" class="col-lg-1 col-form-label">New</label>
+                    <div class="col-lg-10">
+                        <input type="password" class="form-control" id="password" formControlName="password">
+                    </div>
+                    <div class="col-lg-1">
+                        <i style="color: white;" class="fa fa-pencil fa-2x"></i>
+                    </div>
+                    <div *ngIf="!accountPasswordForm.get('password').valid &&
+                     accountPasswordForm.get('password').touched" class="errors col-lg-12">
+                        <div *ngIf="accountPasswordForm.get('password').errors['required']"
+                             class="text-danger font-weight-bold">This field is required
+                        </div>
+                        <div *ngIf="accountPasswordForm.get('password').errors['minlength'] ||
+                        accountPasswordForm.get('password').errors['maxlength']"
+                             class="text-danger font-weight-bold">Password length must be between 8 and 16
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row justify-content-center">
+                    <label for="confirmPassword" class="col-lg-1 col-form-label">Confirm</label>
+                    <div class="col-lg-10">
+                        <input type="password" class="form-control" id="confirmPassword"
+                               formControlName="confirmPassword">
+                    </div>
+                    <div class="col-lg-1">
+                        <i style="color: white;" class="fa fa-pencil fa-2x"></i>
+                    </div>
+                    <div *ngIf="!accountPasswordForm.get('confirmPassword').valid &&
+                     accountPasswordForm.get('confirmPassword').touched" class="errors col-lg-12">
+                        <div *ngIf="accountPasswordForm.get('confirmPassword').errors['required']"
+                             class="text-danger font-weight-bold">This field is required
+                        </div>
+                        <div *ngIf="accountPasswordForm.errors && accountPasswordForm.errors['mismatch']"
+                             class="text-danger font-weight-bold">This password and new password don't match
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="passwordChanged" class="success col-lg-12 text-success font-weight-bold">Password
+                    successfully changed
+                </div>
+                <button type="submit" [disabled]="!accountPasswordForm.valid" class="btn btn-primary pull-right">Change
+                    Password
+                </button>
+            </fieldset>
+        </form>
+    </div>
+</div>

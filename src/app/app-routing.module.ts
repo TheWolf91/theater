@@ -5,6 +5,7 @@ const appRoutes: Routes = [
     {path: '', redirectTo: 'movies', pathMatch: 'full'},
     {path: 'movies', loadChildren: './movies/movies.module#MoviesModule'},
     {path: 'series', loadChildren: './series/series.module#SeriesModule'},
+    {path: 'user', loadChildren: './auth/auth.module.ts#AuthModule'},
     {path: '**', redirectTo: 'movies', pathMatch: 'full'}
 ];
 

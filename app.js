@@ -1,12 +1,18 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
+let mongoose = require('mongoose');
+let passport = require('passport');
 
-var indexRouter = require('./routes/index');
+let indexRouter = require('./routes/index');
+let userRouter = require('./routes/api/user');
 
-var app = express();
+let app = express();
+let port = process.env.PORT || 27017;
+
+mongoose.connect('mongodb://localhost:27017/theater');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -18,6 +24,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Passport Config
+require('./config/passport.js')(passport);
+
+// Passport Middleware
+app.use(passport.initialize());
+
+app.use('/api/user', userRouter);
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler

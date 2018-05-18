@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="row">
+        <div class="wrapper col-md-12">
+            <form class="sign col-md-7" [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter email" formControlName="email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+                </div>
+                <div *ngIf="loginError" class="errors text-danger font-weight-bold pull-right">{{loginError}}</div>
+                <button [disabled]="!signinForm.valid" type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
