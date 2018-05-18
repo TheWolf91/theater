@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Movie} from "../movie.model";
 import {MovieService} from "../movie.service";
 import {PagerService} from "../../pager/pager.service";
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'app-movies-most-voted',
@@ -26,6 +27,9 @@ export class MoviesMostVotedComponent {
     onMostVoted() {
         this.movies = [];
         this.movieService.getMostVoted()
+            .catch(err => {
+                return Observable.empty();
+            })
             .subscribe((movie: Movie) => this.movies.push(this.movieService.movieFactory(movie)));
     }
 }

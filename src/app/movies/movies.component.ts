@@ -1,17 +1,8 @@
-import {Component, OnInit} from "@angular/core";
+import {Component} from "@angular/core";
 
 @Component({
     selector: 'app-movies',
     templateUrl: './movies.component.html'
 })
-export class MoviesComponent implements OnInit{
-
-
-    constructor(){
-
-    }
-
-    ngOnInit() {
-
-    }
+export class MoviesComponent {
 }

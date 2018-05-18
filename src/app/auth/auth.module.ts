@@ -8,6 +8,7 @@ import {AuthGuardService} from "./auth-guard.service";
 import {CommonModule} from "@angular/common";
 import {AccountComponent} from "./account/account.component";
 import {AccountService} from "./account/account.service";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import {AccountService} from "./account/account.service";
         AuthService,
         AccountService,
         AuthGuardService,
+        JwtHelperService
     ]
 })
 export class AuthModule {

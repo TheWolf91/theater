@@ -87,7 +87,7 @@ router.post('/signin', function (req, res, next) {
 });
 
 // GET ACCOUNT INFO
-router.get('/account', passport.authenticate('jwt', {session: false}), function(req, res, next) {
+router.get('/account', passport.authenticate('jwt', {session: false}), function (req, res, next) {
     res.status(200).json({
         username: req.user.username,
         email: req.user.email
@@ -102,7 +102,10 @@ router.put('/account', passport.authenticate('jwt', {session: false}), function 
         return res.status(500).json(errors);
     }
 
-    User.findByIdAndUpdate({_id: req.user.id}, {username: req.body.username, email: req.body.email}, {new: true}, function (err, user) {
+    User.findByIdAndUpdate({_id: req.user.id}, {
+        username: req.body.username,
+        email: req.body.email
+    }, {new: true}, function (err, user) {
         if (err) {
             return res.status(500).json({
                 title: 'An error occurred during the user update',

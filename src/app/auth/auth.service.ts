@@ -10,10 +10,6 @@ export class AuthService {
     constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
     }
 
-    public getToken(): string {
-        return localStorage.getItem('token');
-    }
-
     signup(user: User) {
         let headers: HttpHeaders = new HttpHeaders();
         headers.set('Content-type', 'application/json');
@@ -29,19 +25,15 @@ export class AuthService {
         return this.http.post('http://localhost:3000/api/user/signin', user, {headers: headers})
     }
 
-    public isLoggedIn() {
-        if (this.jwtHelper.isTokenExpired(this.getToken())) {
-            this.logout();
-            return false
-        }
-        return true;
+    public getToken(): string {
+        return localStorage.getItem('token');
     }
 
-    public isTokenExpired(): boolean {
-        if (this.jwtHelper.isTokenExpired(this.getToken())) {
-            this.logout();
-            return true;
+    public isLoggedIn() {
+        if ((this.getToken()? this.getToken() : null)) {
+            return true
         }
+        this.logout();
         return false;
     }
 

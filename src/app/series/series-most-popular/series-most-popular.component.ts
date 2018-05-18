@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {PagerService} from "../../pager/pager.service";
 import {SerieService} from "../serie.service";
 import {Serie} from "../serie.model";
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'app-series-most-popular',
@@ -26,6 +27,9 @@ export class SeriesMostPopularComponent {
     onMostPopular() {
         this.series = [];
         this.serieService.getMostPopular()
+            .catch(err => {
+                return Observable.empty();
+            })
             .subscribe((serie: Serie) => this.series.push(this.serieService.serieFactory(serie)));
         console.log(this.series);
     }

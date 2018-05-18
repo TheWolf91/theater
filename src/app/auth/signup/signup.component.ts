@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {User} from "../user.model";
+import {Observable} from "rxjs/Observable";
 
 
 @Component({
@@ -20,7 +21,11 @@ export class SignupComponent implements OnInit{
             this.signupForm.value.password
         );
 
-        this.authService.signup(user).subscribe(res => console.log(res));
+        this.authService.signup(user)
+            .catch(err => {
+                return Observable.empty()
+            })
+            .subscribe(res => console.log(res));
         this.signupForm.reset();
     }
 

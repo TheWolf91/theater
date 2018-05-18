@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Serie} from "../serie.model";
 import {SerieService} from "../serie.service";
 import {PagerService} from "../../pager/pager.service";
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'app-series-on-the-air',
@@ -26,6 +27,9 @@ export class SeriesOnTheAirComponent {
     onTheAir() {
         this.series = [];
         this.serieService.getOnTheAir()
+            .catch(err => {
+                return Observable.empty();
+            })
             .subscribe((serie: Serie) => this.series.push(this.serieService.serieFactory(serie)));
         console.log(this.series);
     }

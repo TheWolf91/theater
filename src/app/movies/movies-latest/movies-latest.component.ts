@@ -3,6 +3,7 @@ import {Movie} from "../movie.model";
 import {MovieService} from "../movie.service";
 import {ActivatedRoute} from "@angular/router";
 import {PagerService} from "../../pager/pager.service";
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'app-movies-latest',
@@ -14,7 +15,6 @@ export class MoviesLatestComponent {
     constructor(private movieService: MovieService, private pagerService: PagerService, private route: ActivatedRoute) {
         this.route.params.subscribe(param => {
             if (param['page']) {
-                console.log('HO TROVATO UN PARAMETRO E SI CHIAMA: ' + param['page']);
                 this.pagerService.page = param['page'];
                 this.onLatest();
             } else {
@@ -27,6 +27,9 @@ export class MoviesLatestComponent {
     onLatest() {
         this.movies = [];
         this.movieService.getLatest()
+            .catch (err => {
+                return Observable.empty();
+            })
             .subscribe((movie: Movie) => this.movies.push(this.movieService.movieFactory(movie)));
         console.log(this.movies);
     }

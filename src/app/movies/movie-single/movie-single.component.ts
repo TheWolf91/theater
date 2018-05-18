@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {NgTemplateOutlet} from "@angular/common";
 import {DomSanitizer} from "@angular/platform-browser";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'app-movie-single',
@@ -25,7 +26,10 @@ export class MovieSingleComponent {
         this.route.params.subscribe(param => {
             if (param['id']) {
                 this.movieService.getMovie(param['id'])
-                    .catch(err => router.navigate(['/latest']))
+                    .catch(err => {
+                        router.navigate(['/latest']);
+                        return Observable.empty();
+                    })
                     .subscribe(item => this.movie = this.movieService.movieFactory(item));
             }
         })

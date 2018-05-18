@@ -143,7 +143,9 @@ var AccountComponent = /** @class */ (function () {
         var _this = this;
         var user = new user_model_1.User(this.accountSettingsForm.controls.username.value, this.accountSettingsForm.controls.email.value);
         this.accountService.updateUser(user)
-            .catch(function (err) { return Observable_1.Observable.throw(err); })
+            .catch(function (err) {
+            return Observable_1.Observable.empty();
+        })
             .subscribe(function (res) {
             _this.user.username = res['obj']['username'];
             _this.user.email = res['obj']['email'];
@@ -157,7 +159,7 @@ var AccountComponent = /** @class */ (function () {
         this.accountService.changePassword(this.accountPasswordForm.controls.oldPassword.value, this.accountPasswordForm.controls.password.value, this.accountPasswordForm.controls.confirmPassword.value)
             .catch(function (err) {
             _this.oldPasswordError = err['error']['title'];
-            return Observable_1.Observable.throw(err);
+            return Observable_1.Observable.empty();
         })
             .subscribe(function (res) {
             _this.oldPasswordError = null;
@@ -173,7 +175,9 @@ var AccountComponent = /** @class */ (function () {
     AccountComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.http.get('http://localhost:3000/api/user/account')
-            .catch(function (err) { return Observable_1.Observable.throw(err); })
+            .catch(function (err) {
+            return Observable_1.Observable.empty();
+        })
             .subscribe(function (user) {
             _this.user = new user_model_1.User(user['username'], user['email']);
             _this.initAccountSettingsForm();
@@ -355,6 +359,7 @@ var auth_guard_service_1 = __webpack_require__(/*! ./auth-guard.service */ "./sr
 var common_1 = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/esm5/common.js");
 var account_component_1 = __webpack_require__(/*! ./account/account.component */ "./src/app/auth/account/account.component.ts");
 var account_service_1 = __webpack_require__(/*! ./account/account.service */ "./src/app/auth/account/account.service.ts");
+var angular_jwt_1 = __webpack_require__(/*! @auth0/angular-jwt */ "./node_modules/@auth0/angular-jwt/index.js");
 var AuthModule = /** @class */ (function () {
     function AuthModule() {
     }
@@ -375,6 +380,7 @@ var AuthModule = /** @class */ (function () {
                 auth_service_1.AuthService,
                 account_service_1.AccountService,
                 auth_guard_service_1.AuthGuardService,
+                angular_jwt_1.JwtHelperService
             ]
         })
     ], AuthModule);
@@ -392,7 +398,7 @@ exports.AuthModule = AuthModule;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n    <div class=\"row\">\r\n        <div class=\"wrapper col-md-12\">\r\n            <form class=\"sign col-md-7\" [formGroup]=\"signinForm\" (ngSubmit)=\"onSubmit()\">\r\n                <div class=\"form-group\">\r\n                    <label for=\"email\">Email address</label>\r\n                    <input type=\"email\" class=\"form-control\" id=\"email\" placeholder=\"Enter email\" formControlName=\"email\">\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"password\">Password</label>\r\n                    <input type=\"password\" class=\"form-control\" id=\"password\" placeholder=\"Password\" formControlName=\"password\">\r\n                </div>\r\n                <div *ngIf=\"loginError\" class=\"errors text-danger font-weight-bold pull-right\">{{loginError}}</div>\r\n                <button [disabled]=\"!signinForm.valid\" type=\"submit\" class=\"btn btn-primary\">Login</button>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</div>";
+module.exports = "<div class=\"container\">\r\n    <div class=\"row\">\r\n        <div class=\"wrapper col-md-12\">\r\n            <form class=\"sign col-md-7\" [formGroup]=\"signinForm\" (ngSubmit)=\"onSubmit()\">\r\n                <div class=\"form-group\">\r\n                    <label for=\"email\">Email address</label>\r\n                    <input type=\"email\" class=\"form-control\" id=\"email\" placeholder=\"Enter email\" formControlName=\"email\">\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"password\">Password</label>\r\n                    <input type=\"password\" class=\"form-control\" id=\"password\" placeholder=\"Password\" formControlName=\"password\">\r\n                </div>\r\n                <div *ngIf=\"loginError\" class=\"errors text-danger font-weight-bold\">{{loginError}}</div>\r\n                <button [disabled]=\"!signinForm.valid\" type=\"submit\" class=\"btn btn-primary\">Login</button>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</div>";
 
 /***/ }),
 
@@ -432,7 +438,7 @@ var SigninComponent = /** @class */ (function () {
         this.authService.signin(user)
             .catch(function (err) {
             _this.loginError = err['error']['error']['message'];
-            return Observable_1.Observable.throw(err);
+            return Observable_1.Observable.empty();
         })
             .subscribe(function (data) {
             localStorage.setItem('token', data['token']);
@@ -441,7 +447,7 @@ var SigninComponent = /** @class */ (function () {
         });
     };
     SigninComponent.prototype.ngOnInit = function () {
-        if (!this.authService.isTokenExpired()) {
+        if (this.authService.isLoggedIn()) {
             this.router.navigateByUrl('/user/account');
         }
         this.signinForm = new forms_1.FormGroup({
@@ -500,13 +506,18 @@ var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/c
 var forms_1 = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/esm5/forms.js");
 var auth_service_1 = __webpack_require__(/*! ../auth.service */ "./src/app/auth/auth.service.ts");
 var user_model_1 = __webpack_require__(/*! ../user.model */ "./src/app/auth/user.model.ts");
+var Observable_1 = __webpack_require__(/*! rxjs/Observable */ "./node_modules/rxjs/Observable.js");
 var SignupComponent = /** @class */ (function () {
     function SignupComponent(authService) {
         this.authService = authService;
     }
     SignupComponent.prototype.onSubmit = function () {
         var user = new user_model_1.User(this.signupForm.value.username, this.signupForm.value.email, this.signupForm.value.password);
-        this.authService.signup(user).subscribe(function (res) { return console.log(res); });
+        this.authService.signup(user)
+            .catch(function (err) {
+            return Observable_1.Observable.empty();
+        })
+            .subscribe(function (res) { return console.log(res); });
         this.signupForm.reset();
     };
     SignupComponent.prototype.passwordsShouldMatch = function (fGroup) {

@@ -270,6 +270,7 @@ var router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angul
 var serie_service_1 = __webpack_require__(/*! ../serie.service */ "./src/app/series/serie.service.ts");
 var ng_bootstrap_1 = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
 var platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/esm5/platform-browser.js");
+var Observable_1 = __webpack_require__(/*! rxjs/Observable */ "./node_modules/rxjs/Observable.js");
 var SerieSingleComponent = /** @class */ (function () {
     function SerieSingleComponent(serieService, route, router, modalService, sanitizer) {
         var _this = this;
@@ -281,7 +282,10 @@ var SerieSingleComponent = /** @class */ (function () {
         this.route.params.subscribe(function (param) {
             if (param['id']) {
                 _this.serieService.getSerie(param['id'])
-                    .catch(function (err) { return router.navigate(['/on-the-air']); })
+                    .catch(function (err) {
+                    router.navigate(['/on-the-air']);
+                    return Observable_1.Observable.empty();
+                })
                     .subscribe(function (item) { return _this.serie = _this.serieService.serieFactory(item); });
             }
         });
@@ -502,6 +506,7 @@ var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/c
 var router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/esm5/router.js");
 var pager_service_1 = __webpack_require__(/*! ../../pager/pager.service */ "./src/app/pager/pager.service.ts");
 var serie_service_1 = __webpack_require__(/*! ../serie.service */ "./src/app/series/serie.service.ts");
+var Observable_1 = __webpack_require__(/*! rxjs/Observable */ "./node_modules/rxjs/Observable.js");
 var SeriesMostPopularComponent = /** @class */ (function () {
     function SeriesMostPopularComponent(serieService, pagerService, route) {
         var _this = this;
@@ -524,6 +529,9 @@ var SeriesMostPopularComponent = /** @class */ (function () {
         var _this = this;
         this.series = [];
         this.serieService.getMostPopular()
+            .catch(function (err) {
+            return Observable_1.Observable.empty();
+        })
             .subscribe(function (serie) { return _this.series.push(_this.serieService.serieFactory(serie)); });
         console.log(this.series);
     };
@@ -564,6 +572,7 @@ var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/c
 var router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/esm5/router.js");
 var serie_service_1 = __webpack_require__(/*! ../serie.service */ "./src/app/series/serie.service.ts");
 var pager_service_1 = __webpack_require__(/*! ../../pager/pager.service */ "./src/app/pager/pager.service.ts");
+var Observable_1 = __webpack_require__(/*! rxjs/Observable */ "./node_modules/rxjs/Observable.js");
 var SeriesOnTheAirComponent = /** @class */ (function () {
     function SeriesOnTheAirComponent(serieService, pagerService, route) {
         var _this = this;
@@ -586,6 +595,9 @@ var SeriesOnTheAirComponent = /** @class */ (function () {
         var _this = this;
         this.series = [];
         this.serieService.getOnTheAir()
+            .catch(function (err) {
+            return Observable_1.Observable.empty();
+        })
             .subscribe(function (serie) { return _this.series.push(_this.serieService.serieFactory(serie)); });
         console.log(this.series);
     };
@@ -676,6 +688,7 @@ var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/c
 var router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/esm5/router.js");
 var pager_service_1 = __webpack_require__(/*! ../../pager/pager.service */ "./src/app/pager/pager.service.ts");
 var serie_service_1 = __webpack_require__(/*! ../serie.service */ "./src/app/series/serie.service.ts");
+var Observable_1 = __webpack_require__(/*! rxjs/Observable */ "./node_modules/rxjs/Observable.js");
 var SeriesTopRatedComponent = /** @class */ (function () {
     function SeriesTopRatedComponent(serieService, pagerService, route) {
         var _this = this;
@@ -698,6 +711,9 @@ var SeriesTopRatedComponent = /** @class */ (function () {
         var _this = this;
         this.series = [];
         this.serieService.getTopRated()
+            .catch(function (err) {
+            return Observable_1.Observable.empty();
+        })
             .subscribe(function (serie) { return _this.series.push(_this.serieService.serieFactory(serie)); });
         console.log(this.series);
     };

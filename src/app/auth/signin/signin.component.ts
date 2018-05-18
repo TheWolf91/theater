@@ -21,7 +21,7 @@ export class SigninComponent implements OnInit {
         this.authService.signin(user)
             .catch(err => {
                 this.loginError = err['error']['error']['message'];
-                return Observable.throw(err);
+                return Observable.empty();
             })
             .subscribe(data => {
                     localStorage.setItem('token', data['token']);
@@ -32,7 +32,7 @@ export class SigninComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (!this.authService.isTokenExpired()) {
+        if (this.authService.isLoggedIn()) {
             this.router.navigateByUrl('/user/account')
         }
         this.signinForm = new FormGroup({

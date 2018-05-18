@@ -3,6 +3,7 @@ import {MovieService} from "../movie.service";
 import {Movie} from "../movie.model";
 import {ActivatedRoute} from "@angular/router";
 import {PagerService} from "../../pager/pager.service";
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'app-movies-top-rated',
@@ -26,7 +27,10 @@ export class MoviesTopRatedComponent {
     onTopRated() {
         this.movies = [];
         this.movieService.getTopRated()
+            .catch(err => {
+                return Observable.empty();
+            })
             .subscribe((movie: Movie) => this.movies.push(this.movieService.movieFactory(movie)));
     }
-    
+
 }

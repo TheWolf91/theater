@@ -56,14 +56,16 @@ export class AccountComponent implements OnInit {
     onUpdate() {
         const user = new User(this.accountSettingsForm.controls.username.value, this.accountSettingsForm.controls.email.value);
         this.accountService.updateUser(user)
-            .catch(err => Observable.throw(err))
+            .catch(err => {
+                return Observable.empty();
+            })
             .subscribe(res => {
-            this.user.username = res['obj']['username'];
-            this.user.email = res['obj']['email'];
-            this.settingsUpdated = true;
-            setTimeout(() => this.settingsUpdated = false, 3000);
-            console.log(res);
-        });
+                this.user.username = res['obj']['username'];
+                this.user.email = res['obj']['email'];
+                this.settingsUpdated = true;
+                setTimeout(() => this.settingsUpdated = false, 3000);
+                console.log(res);
+            });
     }
 
     onChangePassword() {
@@ -74,7 +76,7 @@ export class AccountComponent implements OnInit {
         )
             .catch(err => {
                 this.oldPasswordError = err['error']['title'];
-                return Observable.throw(err);
+                return Observable.empty();
             })
             .subscribe(res => {
                 this.oldPasswordError = null;
@@ -91,7 +93,9 @@ export class AccountComponent implements OnInit {
 
     ngOnInit() {
         this.http.get('http://localhost:3000/api/user/account')
-            .catch(err => Observable.throw(err))
+            .catch(err => {
+                return Observable.empty();
+            })
             .subscribe(user => {
                 this.user = new User(user['username'], user['email']);
                 this.initAccountSettingsForm();

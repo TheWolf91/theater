@@ -84,6 +84,7 @@ var movie_service_1 = __webpack_require__(/*! ../movie.service */ "./src/app/mov
 var router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/esm5/router.js");
 var platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/esm5/platform-browser.js");
 var ng_bootstrap_1 = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+var Observable_1 = __webpack_require__(/*! rxjs/Observable */ "./node_modules/rxjs/Observable.js");
 var MovieSingleComponent = /** @class */ (function () {
     function MovieSingleComponent(movieService, route, router, modalService, sanitizer) {
         var _this = this;
@@ -95,7 +96,10 @@ var MovieSingleComponent = /** @class */ (function () {
         this.route.params.subscribe(function (param) {
             if (param['id']) {
                 _this.movieService.getMovie(param['id'])
-                    .catch(function (err) { return router.navigate(['/latest']); })
+                    .catch(function (err) {
+                    router.navigate(['/latest']);
+                    return Observable_1.Observable.empty();
+                })
                     .subscribe(function (item) { return _this.movie = _this.movieService.movieFactory(item); });
             }
         });
@@ -310,6 +314,7 @@ var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/c
 var movie_service_1 = __webpack_require__(/*! ../movie.service */ "./src/app/movies/movie.service.ts");
 var router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/esm5/router.js");
 var pager_service_1 = __webpack_require__(/*! ../../pager/pager.service */ "./src/app/pager/pager.service.ts");
+var Observable_1 = __webpack_require__(/*! rxjs/Observable */ "./node_modules/rxjs/Observable.js");
 var MoviesLatestComponent = /** @class */ (function () {
     function MoviesLatestComponent(movieService, pagerService, route) {
         var _this = this;
@@ -319,7 +324,6 @@ var MoviesLatestComponent = /** @class */ (function () {
         this.movies = [];
         this.route.params.subscribe(function (param) {
             if (param['page']) {
-                console.log('HO TROVATO UN PARAMETRO E SI CHIAMA: ' + param['page']);
                 _this.pagerService.page = param['page'];
                 _this.onLatest();
             }
@@ -333,6 +337,9 @@ var MoviesLatestComponent = /** @class */ (function () {
         var _this = this;
         this.movies = [];
         this.movieService.getLatest()
+            .catch(function (err) {
+            return Observable_1.Observable.empty();
+        })
             .subscribe(function (movie) { return _this.movies.push(_this.movieService.movieFactory(movie)); });
         console.log(this.movies);
     };
@@ -384,6 +391,7 @@ var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/c
 var router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/esm5/router.js");
 var movie_service_1 = __webpack_require__(/*! ../movie.service */ "./src/app/movies/movie.service.ts");
 var pager_service_1 = __webpack_require__(/*! ../../pager/pager.service */ "./src/app/pager/pager.service.ts");
+var Observable_1 = __webpack_require__(/*! rxjs/Observable */ "./node_modules/rxjs/Observable.js");
 var MoviesMostVotedComponent = /** @class */ (function () {
     function MoviesMostVotedComponent(movieService, pagerService, route) {
         var _this = this;
@@ -406,6 +414,9 @@ var MoviesMostVotedComponent = /** @class */ (function () {
         var _this = this;
         this.movies = [];
         this.movieService.getMostVoted()
+            .catch(function (err) {
+            return Observable_1.Observable.empty();
+        })
             .subscribe(function (movie) { return _this.movies.push(_this.movieService.movieFactory(movie)); });
     };
     MoviesMostVotedComponent = __decorate([
@@ -495,6 +506,7 @@ var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/c
 var movie_service_1 = __webpack_require__(/*! ../movie.service */ "./src/app/movies/movie.service.ts");
 var router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/esm5/router.js");
 var pager_service_1 = __webpack_require__(/*! ../../pager/pager.service */ "./src/app/pager/pager.service.ts");
+var Observable_1 = __webpack_require__(/*! rxjs/Observable */ "./node_modules/rxjs/Observable.js");
 var MoviesTopRatedComponent = /** @class */ (function () {
     function MoviesTopRatedComponent(movieService, pagerService, route) {
         var _this = this;
@@ -517,6 +529,9 @@ var MoviesTopRatedComponent = /** @class */ (function () {
         var _this = this;
         this.movies = [];
         this.movieService.getTopRated()
+            .catch(function (err) {
+            return Observable_1.Observable.empty();
+        })
             .subscribe(function (movie) { return _this.movies.push(_this.movieService.movieFactory(movie)); });
     };
     MoviesTopRatedComponent = __decorate([
@@ -559,22 +574,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/esm5/core.js");
 var MoviesComponent = /** @class */ (function () {
     function MoviesComponent() {
     }
-    MoviesComponent.prototype.ngOnInit = function () {
-    };
     MoviesComponent = __decorate([
         core_1.Component({
             selector: 'app-movies',
             template: __webpack_require__(/*! ./movies.component.html */ "./src/app/movies/movies.component.html")
-        }),
-        __metadata("design:paramtypes", [])
+        })
     ], MoviesComponent);
     return MoviesComponent;
 }());
