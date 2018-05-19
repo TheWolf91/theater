@@ -3,9 +3,13 @@ let router = express.Router();
 let bcrypt = require('bcryptjs');
 let jwt = require('jsonwebtoken');
 let keys = require('../../config/keys');
+let mailKeys = require('../../keys');
 let passport = require('passport');
+let crypto = require('crypto');
+let nodemailer = require('nodemailer');
 
 let User = require('../../models/user');
+let VerificationToken = require('../../models/verificationToken');
 
 // LOAD INPUT VALIDATIONS
 const validateSignupInput = require('../../validation/signup');
@@ -20,7 +24,7 @@ router.post('/signup', function (req, res, next) {
     if (!isValid) {
         return res.status(400).json(errors);
     }
-
+    // Check if email already exists
     User.findOne({email: req.body.email}, function (user) {
         if (user) {
             return res.status(400).json({
@@ -28,24 +32,56 @@ router.post('/signup', function (req, res, next) {
             });
         }
     });
-
+    // Create and save the new user
     let user = new User({
         username: req.body.username.toLowerCase(),
         email: req.body.email.toLowerCase(),
         password: bcrypt.hashSync(req.body.password, 10)
-
     });
     user.save(function (err, result) {
         if (err) {
             return res.status(500).json({
                 title: 'An error occurred during the signup',
                 error: err
-            })
+            });
         }
         res.status(201).json({
             title: 'User created',
             obj: result
-        })
+        });
+        // Create a verification token for this user
+        let verificationToken = new VerificationToken({
+            _userId: user._id,
+            token: crypto.randomBytes(16).toString('hex')
+        });
+        verificationToken.save(function (err) {
+            if (err) {
+                return res.status(500).json({
+                    title: 'An error occurred',
+                    error: err
+                });
+            }
+            // Send the email
+            let transporter = nodemailer.createTransport({
+                host: mailKeys.host,
+                auth: {user: mailKeys.user, pass: mailKeys.password}
+            });
+            let mailOptions = {
+                from: mailKeys.email, to: user.email, subject: 'Ciaoo',
+                text: 'Hello, verification code: http://' + req.headers.host + '/user/confirmation/' + verificationToken.token
+            };
+            transporter.sendMail(mailOptions, function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        title: 'An error occurred',
+                        error: err
+                    });
+                }
+                res.status(200).json({
+                    title: 'User successfully saved'
+                });
+            });
+        });
     });
 });
 
@@ -103,7 +139,7 @@ router.put('/account', passport.authenticate('jwt', {session: false}), function 
     }
 
     User.findByIdAndUpdate({_id: req.user.id}, {
-        username: req.body.username,
+        username: req.body.username.toLowerCase(),
         email: req.body.email
     }, {new: true}, function (err, user) {
         if (err) {
@@ -168,4 +204,102 @@ router.put('/account/password', passport.authenticate('jwt', {session: false}), 
     });
 });
 
+// CHECK VERIFICATION TOKEN
+router.post('/confirmation', function (req, res, next) {
+    VerificationToken.findOne({token: req.body.token}, function (err, token) {
+        if (err) {
+            return res.status(500).json({
+                title: 'An error occurred during save',
+                error: err
+            });
+        }
+        if (!token) {
+            return res.status(500).json({
+                title: 'Token doesn\'t exists',
+                error: {message: 'Unable to find this token or token has expired'}
+            });
+        }
+        User.findOne({_id: token._userId}, function (err, user) {
+            if (err) {
+                return res.status(500).json({
+                    title: 'An error occurred',
+                    error: err
+                });
+            }
+            if (!user) {
+                return res.status(500).json({
+                    title: 'User not found',
+                    error: {message: 'User not found by the provided verification token'}
+                });
+            }
+            if (user.isVerified) {
+                return res.status(400).json({
+                    message: 'This account has been already activated'
+                });
+            }
+            user.isVerified = true;
+            user.save(function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        title: 'An error occurred',
+                        error: err
+                    });
+                }
+                return res.status(200).json({
+                    title: 'User has been correctly activated'
+                });
+            })
+        });
+    });
+});
+
+// RESEND VERIFICATION TOKEN
+router.post('/resend', passport.authenticate('jwt', {session: false}), function (req, res, next) {
+    User.findOne({_id: req.user.id}, function (err, user) {
+        if (err) {
+            return res.status(500).json({
+                title: 'An error occurred',
+                error: err
+            });
+        }
+        if (user.isVerified) {
+            return res.status(400).json({
+                title: 'Account already activated'
+            });
+        }
+        // Create a new verification token
+        let verificationToken = new VerificationToken({
+            _userId: user._id,
+            token: crypto.randomBytes(16).toString('hex')
+        });
+        verificationToken.save(function (err) {
+            if (err) {
+                return res.status(500).json({
+                    title: 'An error occurred',
+                    error: err
+                });
+            }
+        });
+        //Send the email
+        let transporter = nodemailer.createTransport({
+            host: mailKeys.host,
+            auth: {user: mailKeys.user, pass: mailKeys.password}
+        });
+        let mailOptions = {
+            from: mailKeys.email, to: user.email, subject: 'Ciaoo',
+            text: 'Hello, verification code: http://' + req.headers.host + '/user/confirmation/' + verificationToken.token
+        };
+        transporter.sendMail(mailOptions, function (err) {
+            if (err) {
+                return res.status(500).json({
+                    title: 'An error occurred',
+                    error: err
+                });
+            }
+            res.status(200).json({
+                title: 'User successfully saved'
+            });
+        });
+    });
+});
 module.exports = router;

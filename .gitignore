@@ -68,3 +68,7 @@ typings/
 #WebStorm
 idea
 
+/keys.json
+/package-lock.json
+
+/public/javascripts/*.js

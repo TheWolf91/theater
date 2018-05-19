@@ -25,7 +25,6 @@ import {NgProgressRouterModule} from "@ngx-progressbar/router";
         BrowserModule,
         HttpClientModule,
         NgProgressModule.forRoot(),
-        NgProgressRouterModule,
         NgProgressHttpModule,
         JwtModule.forRoot({
             config: {

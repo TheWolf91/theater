@@ -30,11 +30,16 @@ export class AuthService {
     }
 
     public isLoggedIn() {
-        if ((this.getToken()? this.getToken() : null)) {
-            return true
+        let token;
+        if (this.getToken()) {
+            token = this.getToken();
         }
-        this.logout();
-        return false;
+        if (!this.jwtHelper.isTokenExpired(token)) {
+            return true;
+        } else {
+            this.logout();
+            return false;
+        }
     }
 
     logout() {
