@@ -7,6 +7,7 @@ let mailKeys = require('../../keys');
 let passport = require('passport');
 let crypto = require('crypto');
 let nodemailer = require('nodemailer');
+let hbs = require('nodemailer-express-handlebars');
 
 let User = require('../../models/user');
 let VerificationToken = require('../../models/verificationToken');
@@ -66,9 +67,18 @@ router.post('/signup', function (req, res, next) {
                 host: mailKeys.host,
                 auth: {user: mailKeys.user, pass: mailKeys.password}
             });
+            // Set email template
+            transporter.use('compile', hbs({
+                viewPath: 'views/email',
+                extName: '.hbs'
+            }));
             let mailOptions = {
-                from: mailKeys.email, to: user.email, subject: 'Ciaoo',
-                text: 'Hello, verification code: http://' + req.headers.host + '/user/confirmation/' + verificationToken.token
+                from: mailKeys.email, to: user.email, subject: 'Theater - Activate your account',
+                template: 'account-activation',
+                context: {
+                    activationLink: 'http://' + req.headers.host + '/user/confirmation/' + verificationToken.token,
+                    username: req.body.username
+                },
             };
             transporter.sendMail(mailOptions, function (err) {
                 if (err) {
@@ -216,7 +226,7 @@ router.post('/confirmation', function (req, res, next) {
         if (!token) {
             return res.status(500).json({
                 title: 'Token doesn\'t exists',
-                error: {message: 'Unable to find this token or token has expired'}
+                error: 'Unable to find this token or token has expired'
             });
         }
         User.findOne({_id: token._userId}, function (err, user) {
@@ -234,7 +244,7 @@ router.post('/confirmation', function (req, res, next) {
             }
             if (user.isVerified) {
                 return res.status(400).json({
-                    message: 'This account has been already activated'
+                    error: 'This account has been already activated'
                 });
             }
             user.isVerified = true;
@@ -254,7 +264,7 @@ router.post('/confirmation', function (req, res, next) {
 });
 
 // RESEND VERIFICATION TOKEN
-router.post('/resend', passport.authenticate('jwt', {session: false}), function (req, res, next) {
+router.get('/resend', passport.authenticate('jwt', {session: false}), function (req, res, next) {
     User.findOne({_id: req.user.id}, function (err, user) {
         if (err) {
             return res.status(500).json({
@@ -285,9 +295,18 @@ router.post('/resend', passport.authenticate('jwt', {session: false}), function 
             host: mailKeys.host,
             auth: {user: mailKeys.user, pass: mailKeys.password}
         });
+        // Set email template
+        transporter.use('compile', hbs({
+            viewPath: 'views/email',
+            extName: '.hbs'
+        }));
         let mailOptions = {
-            from: mailKeys.email, to: user.email, subject: 'Ciaoo',
-            text: 'Hello, verification code: http://' + req.headers.host + '/user/confirmation/' + verificationToken.token
+            from: mailKeys.email, to: user.email, subject: 'Theater - Activate your account',
+            template: 'account-activation',
+            context: {
+                activationLink: 'http://' + req.headers.host + '/user/confirmation/' + verificationToken.token,
+                username: req.body.username
+            },
         };
         transporter.sendMail(mailOptions, function (err) {
             if (err) {
@@ -297,7 +316,7 @@ router.post('/resend', passport.authenticate('jwt', {session: false}), function 
                 });
             }
             res.status(200).json({
-                title: 'User successfully saved'
+                title: 'A new activation link has been sent to ' + user.email
             });
         });
     });

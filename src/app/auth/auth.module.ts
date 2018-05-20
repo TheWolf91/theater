@@ -9,6 +9,9 @@ import {CommonModule} from "@angular/common";
 import {AccountComponent} from "./account/account.component";
 import {AccountService} from "./account/account.service";
 import {JwtHelperService} from "@auth0/angular-jwt";
+import {NgbAlertModule} from "@ng-bootstrap/ng-bootstrap";
+import {AccountActivationComponent} from "./account/account-activation/account-activation.component";
+import {ResendActivationComponent} from "./account/account-activation/resend-activation.component";
 
 @NgModule({
     imports: [
@@ -16,11 +19,14 @@ import {JwtHelperService} from "@auth0/angular-jwt";
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        NgbAlertModule
     ],
     declarations: [
         SignupComponent,
         SigninComponent,
-        AccountComponent
+        AccountComponent,
+        AccountActivationComponent,
+        ResendActivationComponent
     ],
     providers: [
         AuthService,

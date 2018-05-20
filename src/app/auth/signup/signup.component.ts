@@ -14,6 +14,7 @@ export class SignupComponent implements OnInit {
     signupForm: FormGroup;
     usernameExists: boolean = false;
     emailExists: boolean = false;
+    newUserRegistered: boolean = false;
 
     constructor(private authService: AuthService, private router: Router) {
     }
@@ -37,9 +38,9 @@ export class SignupComponent implements OnInit {
                 if (err['error']['error']['errors']['email'] && err['error']['error']['errors']['email']['kind'] == 'unique') {
                     this.emailExists = true;
                 }
-                return Observable.empty()
+                return Observable.empty();
             })
-            .subscribe(res => this.router.navigate(['user', 'signin']));
+            .subscribe(res => this.newUserRegistered = true);
         this.signupForm.reset();
     }
 
@@ -49,6 +50,7 @@ export class SignupComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.newUserRegistered = false;
         this.signupForm = new FormGroup({
             username: new FormControl(null, [
                 Validators.required,

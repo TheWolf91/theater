@@ -10,7 +10,6 @@ import {FormsModule} from "@angular/forms";
 import {JwtModule} from "@auth0/angular-jwt";
 import {NgProgressModule} from "@ngx-progressbar/core";
 import {NgProgressHttpModule} from "@ngx-progressbar/http";
-import {NgProgressRouterModule} from "@ngx-progressbar/router";
 
 @NgModule({
     declarations: [

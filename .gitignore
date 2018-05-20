@@ -66,8 +66,6 @@ typings/
 .next
 
 #WebStorm
-.idea
-
-keys.json
-
-public/javascripts/*.js
+/.idea
+/public/javascripts/*.js
+/keys.json

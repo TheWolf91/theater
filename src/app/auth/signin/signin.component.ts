@@ -2,7 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {User} from "../user.model";
 import {AuthService} from "../auth.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Observable} from "rxjs/Observable";
 
 @Component({
@@ -13,7 +13,7 @@ export class SigninComponent implements OnInit {
     signinForm: FormGroup;
     loginError: string;
 
-    constructor(private authService: AuthService, private router: Router) {
+    constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {
     }
 
     onSubmit() {
@@ -26,7 +26,9 @@ export class SigninComponent implements OnInit {
             .subscribe(data => {
                     localStorage.setItem('token', data['token']);
                     localStorage.setItem('userId', data['userId']);
-                    this.router.navigateByUrl('/user/account');
+                this.route.queryParams
+                    .subscribe(params => params['return']?
+                        this.router.navigateByUrl(params['return']) : this.router.navigate(['user', 'account']));
                 }
             );
     }
