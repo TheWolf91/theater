@@ -1,16 +1,17 @@
-let express = require('express');
-let router = express.Router();
-let bcrypt = require('bcryptjs');
-let jwt = require('jsonwebtoken');
-let keys = require('../../config/keys');
-let mailKeys = require('../../keys');
-let passport = require('passport');
-let crypto = require('crypto');
-let nodemailer = require('nodemailer');
-let hbs = require('nodemailer-express-handlebars');
+const express = require('express');
+const router = express.Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const mailKeys = require('../../keys');
+const passport = require('passport');
+const keys = require('../../config/keys');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const hbs = require('nodemailer-express-handlebars');
 
-let User = require('../../models/user');
-let VerificationToken = require('../../models/verificationToken');
+// MODELS
+const User = require('../../models/user');
+const VerificationToken = require('../../models/verificationToken');
 
 // LOAD INPUT VALIDATIONS
 const validateSignupInput = require('../../validation/signup');
@@ -19,7 +20,7 @@ const validateAccountSettingsInput = require('../../validation/account-settings'
 const validateAccountPasswordInput = require('../../validation/account-password');
 
 // USER REGISTRATION
-router.post('/signup', function (req, res, next) {
+router.post('/signup', function (req, res) {
     const {errors, isValid} = validateSignupInput(req.body);
 
     if (!isValid) {
@@ -96,7 +97,7 @@ router.post('/signup', function (req, res, next) {
 });
 
 // USER LOGIN
-router.post('/signin', function (req, res, next) {
+router.post('/signin', function (req, res) {
     const {errors, isValid} = validateSigninInput(req.body);
 
     if (!isValid) {
@@ -133,7 +134,7 @@ router.post('/signin', function (req, res, next) {
 });
 
 // GET ACCOUNT INFO
-router.get('/account', passport.authenticate('jwt', {session: false}), function (req, res, next) {
+router.get('/account', passport.authenticate('jwt', {session: false}), function (req, res) {
     res.status(200).json({
         username: req.user.username,
         email: req.user.email
@@ -141,7 +142,7 @@ router.get('/account', passport.authenticate('jwt', {session: false}), function 
 });
 
 // UPDATE ACCOUNT FIELDS
-router.put('/account', passport.authenticate('jwt', {session: false}), function (req, res, next) {
+router.put('/account', passport.authenticate('jwt', {session: false}), function (req, res) {
     const {errors, isValid} = validateAccountSettingsInput(req.body);
 
     if (!isValid) {
@@ -172,7 +173,7 @@ router.put('/account', passport.authenticate('jwt', {session: false}), function 
 });
 
 // CHANGE PASSWORD
-router.put('/account/password', passport.authenticate('jwt', {session: false}), function (req, res, next) {
+router.put('/account/password', passport.authenticate('jwt', {session: false}), function (req, res) {
     const {errors, isValid} = validateAccountPasswordInput(req.body);
 
     if (!isValid) {
@@ -215,7 +216,7 @@ router.put('/account/password', passport.authenticate('jwt', {session: false}), 
 });
 
 // CHECK VERIFICATION TOKEN
-router.post('/confirmation', function (req, res, next) {
+router.post('/confirmation', function (req, res) {
     VerificationToken.findOne({token: req.body.token}, function (err, token) {
         if (err) {
             return res.status(500).json({
@@ -264,7 +265,7 @@ router.post('/confirmation', function (req, res, next) {
 });
 
 // RESEND VERIFICATION TOKEN
-router.get('/resend', passport.authenticate('jwt', {session: false}), function (req, res, next) {
+router.get('/resend', passport.authenticate('jwt', {session: false}), function (req, res) {
     User.findOne({_id: req.user.id}, function (err, user) {
         if (err) {
             return res.status(500).json({
@@ -321,4 +322,5 @@ router.get('/resend', passport.authenticate('jwt', {session: false}), function (
         });
     });
 });
+
 module.exports = router;

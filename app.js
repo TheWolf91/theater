@@ -8,6 +8,7 @@ let passport = require('passport');
 
 let indexRouter = require('./routes/index');
 let userRouter = require('./routes/api/user');
+let libraryRouter = require('./routes/api/library');
 
 let app = express();
 let port = process.env.PORT || 27017;
@@ -30,6 +31,7 @@ require('./config/passport.js')(passport);
 // Passport Middleware
 app.use(passport.initialize());
 
+app.use('/api/library', libraryRouter);
 app.use('/api/user', userRouter);
 app.use('/', indexRouter);
 
