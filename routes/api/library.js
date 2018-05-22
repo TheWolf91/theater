@@ -3,28 +3,109 @@ const router = express.Router();
 const passport = require('passport');
 const keys = require('../../config/keys');
 
+// LOAD INPUT VALIDATIONS
+const validateLibraryInput = require('../../validation/library');
+
 // MODELS
 const User = require('../../models/user');
 const Library = require('../../models/library');
 
 
 router.post('/favourites', passport.authenticate('jwt', {session: false}), function (req, res) {
-    const favouritesFields = {};
-    if (req.body.favId) favouritesFields.favId = req.body.favId;
-    if (req.body.mediaType) favouritesFields.mediaType = req.body.mediaType;
+    const {isValid, errors} = validateLibraryInput(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
     Library.findOne({user: req.user._id}).then(library => {
         if (library) {
-            Library.update({user: req.user._id}, {$push: {favourites: favouritesFields}})
+            Library.update({user: req.user._id}, {$push: {favourites: req.body}})
                 .then(library => res.json(library));
         } else {
-            new Library({user: req.user._id, favourites: favouritesFields}).save().then(library => res.json(library));
+            new Library({user: req.user._id, favourites: req.body}).save()
+                .then(library => {
+                    User.findOne({_id: req.user._id}, function (err, user) {
+                        if (err) {
+                            return res.status(500).json({
+                                title: 'An error occurred',
+                                error: err
+                            });
+                        }
+                        if (!user) {
+                            return res.status(500).json({
+                                title: 'An error occurred',
+                                error: 'Unable to find this user'
+                            });
+                        }
+                        user.library = library;
+                        user.save(function (err, user) {
+                            if (err) {
+                                return res.status(500).json({
+                                    title: 'An error occurred',
+                                    error: err
+                                });
+                            }
+                            return res.status(200).json(user);
+                        })
+                    });
+                });
         }
     });
 });
 
 router.get('/favourites', passport.authenticate('jwt', {session: false}), function (req, res) {
-    User.findOne({email: 'the_wolf91@libero.it'}).populate('library').exec(function (err, library) {
-        console.log(library)
+    User.findOne({_id: req.user._id}).populate('library').exec(function (err, foundUser) {
+        res.status(200).json(foundUser.library.favourites);
+    });
+});
+
+router.post('/likes', passport.authenticate('jwt', {session: false}), function (req, res) {
+    const {isValid, errors} = validateLibraryInput(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    Library.findOne({user: req.user._id}).then(library => {
+        if (library) {
+            Library.update({user: req.user._id}, {$push: {likes: req.body}})
+                .then(library => res.json(library));
+        } else {
+            new Library({user: req.user._id, likes: req.body}).save()
+                .then(library => {
+                    User.findOne({_id: req.user._id}, function (err, user) {
+                        if (err) {
+                            return res.status(500).json({
+                                title: 'An error occurred',
+                                error: err
+                            });
+                        }
+                        if (!user) {
+                            return res.status(500).json({
+                                title: 'An error occurred',
+                                error: 'Unable to find this user'
+                            });
+                        }
+                        user.library = library;
+                        user.save(function (err, user) {
+                            if (err) {
+                                return res.status(500).json({
+                                    title: 'An error occurred',
+                                    error: err
+                                });
+                            }
+                            return res.status(200).json(user);
+                        })
+                    });
+                });
+        }
+    });
+});
+
+router.get('/likes', passport.authenticate('jwt', {session: false}), function (req, res) {
+    User.findOne({_id: req.user._id}).populate('library').exec(function (err, foundUser) {
+        res.status(200).json(foundUser.library.likes);
     });
 });
 
