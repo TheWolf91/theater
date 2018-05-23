@@ -18,6 +18,12 @@ router.post('/favourites', passport.authenticate('jwt', {session: false}), funct
         return res.status(400).json(errors);
     }
 
+    if (!req.user.isVerified) {
+        return res.status(400).json({
+            error: 'You must activate your account first'
+        });
+    }
+
     Library.findOne({user: req.user._id}).then(library => {
         if (library) {
             Library.update({user: req.user._id}, {$push: {favourites: req.body}})
@@ -55,7 +61,24 @@ router.post('/favourites', passport.authenticate('jwt', {session: false}), funct
 });
 
 router.get('/favourites', passport.authenticate('jwt', {session: false}), function (req, res) {
-    User.findOne({_id: req.user._id}).populate('library').exec(function (err, foundUser) {
+    User.findOne({_id: req.user._id}, function (err, user) {
+        if (err) {
+            return res.status(500).json({
+                title: 'An error occurred',
+                error: err
+            });
+        }
+    }).populate('library').exec(function (err, foundUser) {
+        if (err) {
+            return res.status(500).json({
+                error: err
+            });
+        }
+        if (!foundUser.library) {
+            return res.status(400).json({
+                title: 'User still doesn\'t have a library'
+            });
+        }
         res.status(200).json(foundUser.library.favourites);
     });
 });
@@ -65,6 +88,12 @@ router.post('/likes', passport.authenticate('jwt', {session: false}), function (
 
     if (!isValid) {
         return res.status(400).json(errors);
+    }
+
+    if (!req.user.isVerified) {
+        return res.status(400).json({
+            error: 'You must activate your account first'
+        });
     }
 
     Library.findOne({user: req.user._id}).then(library => {
@@ -104,7 +133,24 @@ router.post('/likes', passport.authenticate('jwt', {session: false}), function (
 });
 
 router.get('/likes', passport.authenticate('jwt', {session: false}), function (req, res) {
-    User.findOne({_id: req.user._id}).populate('library').exec(function (err, foundUser) {
+    User.findOne({_id: req.user._id}, function (err, user) {
+        if (err) {
+            return res.status(500).json({
+                title: 'An error occurred',
+                error: err
+            });
+        }
+    }).populate('library').exec(function (err, foundUser) {
+        if (err) {
+            return res.status(500).json({
+                error: err
+            });
+        }
+        if (!foundUser.library) {
+            return res.status(400).json({
+                title: 'User still doesn\'t have a library'
+            });
+        }
         res.status(200).json(foundUser.library.likes);
     });
 });
