@@ -14,7 +14,7 @@ export class SeriesOnTheAirComponent {
 
     constructor(private serieService: SerieService, private pagerService: PagerService, private route: ActivatedRoute) {
         this.route.params.subscribe(param => {
-            if (param['page']) {
+            if (param['page'] && param['page'] >= 1) {
                 this.pagerService.page = param['page'];
                 this.onTheAir();
             } else {
@@ -31,6 +31,5 @@ export class SeriesOnTheAirComponent {
                 return Observable.empty();
             })
             .subscribe((serie: Serie) => this.series.push(this.serieService.serieFactory(serie)));
-        console.log(this.series);
     }
 }

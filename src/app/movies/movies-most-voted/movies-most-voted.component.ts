@@ -14,7 +14,7 @@ export class MoviesMostVotedComponent {
 
     constructor(private movieService: MovieService, private pagerService: PagerService, private route: ActivatedRoute) {
         this.route.params.subscribe(param => {
-            if (param['page']) {
+            if (param['page'] && param['page'] >= 1) {
                 this.pagerService.page = param['page'];
                 this.onMostVoted();
             } else {

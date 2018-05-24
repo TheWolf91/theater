@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const keys = require('../../config/keys');
 
 // LOAD INPUT VALIDATIONS
 const validateLibraryInput = require('../../validation/library');
@@ -12,7 +11,7 @@ const Library = require('../../models/library');
 
 
 router.post('/favourites', passport.authenticate('jwt', {session: false}), function (req, res) {
-    const {isValid, errors} = validateLibraryInput(req.body);
+    const {errors, isValid} = validateLibraryInput(req.body);
 
     if (!isValid) {
         return res.status(400).json(errors);
@@ -26,8 +25,23 @@ router.post('/favourites', passport.authenticate('jwt', {session: false}), funct
 
     Library.findOne({user: req.user._id}).then(library => {
         if (library) {
-            Library.update({user: req.user._id}, {$push: {favourites: req.body}})
-                .then(library => res.json(library));
+            // Check if media already exists
+            Library.aggregate([
+                {$match: {user: req.user._id}},
+                {$project: {_id: 0, mediaId: '$favourites.mediaId', mediaType: '$favourites.mediaType'}}
+            ], function (err, results) {
+                if (results[0].mediaId.indexOf(req.body.mediaId) !== -1) {
+                    let n = results[0].mediaId.indexOf(req.body.mediaId);
+                    if (results[0].mediaType[n] === req.body.mediaType) {
+                        return res.status(400).json({
+                            title: 'Already in your library',
+                            error: 'Media is already in your favourites'
+                        });
+                    }
+                }
+                Library.update({user: req.user._id}, {$push: {favourites: req.body}})
+                    .then(library => res.json({title: 'Successfully added to your favourites'}));
+            });
         } else {
             new Library({user: req.user._id, favourites: req.body}).save()
                 .then(library => {
@@ -52,7 +66,7 @@ router.post('/favourites', passport.authenticate('jwt', {session: false}), funct
                                     error: err
                                 });
                             }
-                            return res.status(200).json(user);
+                            return res.json({title: 'Successfully added to your favourites'});
                         })
                     });
                 });
@@ -84,7 +98,7 @@ router.get('/favourites', passport.authenticate('jwt', {session: false}), functi
 });
 
 router.post('/likes', passport.authenticate('jwt', {session: false}), function (req, res) {
-    const {isValid, errors} = validateLibraryInput(req.body);
+    const {errors, isValid} = validateLibraryInput(req.body);
 
     if (!isValid) {
         return res.status(400).json(errors);
@@ -98,8 +112,23 @@ router.post('/likes', passport.authenticate('jwt', {session: false}), function (
 
     Library.findOne({user: req.user._id}).then(library => {
         if (library) {
-            Library.update({user: req.user._id}, {$push: {likes: req.body}})
-                .then(library => res.json(library));
+            // Check if media already exists
+            Library.aggregate([
+                {$match: {user: req.user._id}},
+                {$project: {_id: 0, mediaId: '$likes.mediaId', mediaType: '$likes.mediaType'}}
+            ], function (err, results) {
+                if (results[0].mediaId.indexOf(req.body.mediaId) !== -1) {
+                    let n = results[0].mediaId.indexOf(req.body.mediaId);
+                    if (results[0].mediaType[n] === req.body.mediaType) {
+                        return res.status(400).json({
+                            title: 'Already in your library',
+                            error: 'Media is already in your likes'
+                        });
+                    }
+                }
+                Library.update({user: req.user._id}, {$push: {likes: req.body}})
+                    .then(library => res.json({title: 'Successfully added to your likes'}));
+            });
         } else {
             new Library({user: req.user._id, likes: req.body}).save()
                 .then(library => {
@@ -124,7 +153,7 @@ router.post('/likes', passport.authenticate('jwt', {session: false}), function (
                                     error: err
                                 });
                             }
-                            return res.status(200).json(user);
+                            return res.json({title: 'Successfully added to your likes'});
                         })
                     });
                 });
@@ -152,6 +181,36 @@ router.get('/likes', passport.authenticate('jwt', {session: false}), function (r
             });
         }
         res.status(200).json(foundUser.library.likes);
+    });
+});
+
+router.post('/alreadyfavourite', passport.authenticate('jwt', {session:false}), function (req, res) {
+    Library.aggregate([
+        {$match: {user: req.user._id}},
+        {$project: {_id: 0, mediaId: '$favourites.mediaId', mediaType: '$favourites.mediaType'}}
+    ], function (err, results) {
+        if (results[0].mediaId.indexOf(req.body.mediaId) !== -1) {
+            let n = results[0].mediaId.indexOf(req.body.mediaId);
+            if (results[0].mediaType[n] === req.body.mediaType) {
+                return res.json(true);
+            }
+        }
+        return res.json(false);
+    });
+});
+
+router.post('/alreadyliked', passport.authenticate('jwt', {session:false}), function (req, res) {
+    Library.aggregate([
+        {$match: {user: req.user._id}},
+        {$project: {_id: 0, mediaId: '$likes.mediaId', mediaType: '$likes.mediaType'}}
+    ], function (err, results) {
+        if (results[0].mediaId.indexOf(req.body.mediaId) !== -1) {
+            let n = results[0].mediaId.indexOf(req.body.mediaId);
+            if (results[0].mediaType[n] === req.body.mediaType) {
+                return res.json(true);
+            }
+        }
+        return res.json(false);
     });
 });
 

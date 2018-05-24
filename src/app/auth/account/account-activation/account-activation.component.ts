@@ -17,7 +17,6 @@ export class AccountActivationComponent {
             if (param['token']) {
                 this.accountService.activateUser(param['token'])
                     .catch(err => {
-                        console.log(err);
                         this.error = true;
                         this.message = err['error']['error'];
                         if (err['status'] == '400') {

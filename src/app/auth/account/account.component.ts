@@ -77,7 +77,6 @@ export class AccountComponent implements OnInit {
                 this.user.email = res['obj']['email'];
                 this.settingsUpdated = true;
                 setTimeout(() => this.settingsUpdated = false, 3000);
-                console.log(res);
             });
     }
 

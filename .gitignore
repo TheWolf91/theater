@@ -68,4 +68,5 @@ typings/
 #WebStorm
 /.idea
 /public/javascripts/*.js
+/public/javascripts/*.map
 /keys.json

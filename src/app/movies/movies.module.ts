@@ -13,11 +13,11 @@ import {PagerComponent} from "../pager/pager.component";
 import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import {PagerService} from "../pager/pager.service";
 import {PagerModule} from "../pager/pager.module";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @NgModule({
     imports: [
         MoviesRoutingModule,
-        HttpClientModule,
         RouterModule,
         CommonModule,
         PagerModule

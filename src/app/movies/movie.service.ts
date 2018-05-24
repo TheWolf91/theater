@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import 'rxjs/Rx';
 import {Movie} from "./movie.model";
 import {Observable} from "rxjs/Observable";
 import {PagerService} from "../pager/pager.service";
@@ -11,10 +10,10 @@ export class MovieService {
     private discoverQuery = "https://api.themoviedb.org/3/discover/movie";
     private singleMovieQuery = "https://api.themoviedb.org/3/movie";
 
-    constructor(private http: HttpClient, private pagerService: PagerService) {}
+    constructor(private http: HttpClient, private pagerService: PagerService) {
+    }
 
     getLatest() {
-        console.log('GETLATEST CHIAMATO');
         const params = {
             api_key: this.api_key,
             language: 'en',
@@ -36,7 +35,6 @@ export class MovieService {
     }
 
     getTopRated() {
-        console.log('GET TOP RATED CHIAMATO');
         const params = {
             api_key: this.api_key,
             language: 'en',
@@ -58,7 +56,6 @@ export class MovieService {
     }
 
     getMostVoted() {
-        console.log('GET MOST VOTED CHIAMATO');
         const params = {
             api_key: this.api_key,
             language: 'en',
@@ -87,6 +84,42 @@ export class MovieService {
         return this.http.get(`${this.singleMovieQuery}/${id}`, {params})
             .map(res => res)
             .catch(err => Observable.throw("Movie not found"));
+    }
+
+    getLike(movie: Movie) {
+        return this.http.post('http://localhost:3000/api/library/alreadyliked',
+            {
+                mediaId: movie.id.toString(),
+                mediaType: 'movie'
+            }
+        );
+    }
+
+    getFavourite(movie: Movie) {
+        return this.http.post('http://localhost:3000/api/library/alreadyfavourite',
+            {
+                mediaId: movie.id.toString(),
+                mediaType: 'movie'
+            }
+        );
+    }
+
+    setFavourite(movie: Movie) {
+        return this.http.post('http://localhost:3000/api/library/favourites', {
+            mediaId: movie.id.toString(),
+            mediaType: 'movie',
+            title: movie.title,
+            poster: movie.poster_path
+        });
+    }
+
+    setLike(movie: Movie) {
+        return this.http.post('http://localhost:3000/api/library/likes', {
+            mediaId: movie.id.toString(),
+            mediaType: 'movie',
+            title: movie.title,
+            poster: movie.poster_path
+        });
     }
 
     movieFactory(item: Movie): Movie {

@@ -17,7 +17,6 @@ export class SerieService {
     constructor(private http: HttpClient, private pagerService: PagerService) {}
 
     getOnTheAir() {
-        console.log('GET ON THE AIR CHIAMATO');
         const params = {
             api_key: this.api_key,
             language: 'en',
@@ -34,7 +33,6 @@ export class SerieService {
     }
 
     getTopRated() {
-        console.log('GET TOP RATED CHIAMATO');
         const params = {
             api_key: this.api_key,
             language: 'en',
@@ -51,7 +49,6 @@ export class SerieService {
     }
 
     getMostPopular() {
-        console.log('GET MOST POPULAR CHIAMATO');
         const params = {
             api_key: this.api_key,
             language: 'en',

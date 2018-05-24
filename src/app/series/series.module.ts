@@ -17,7 +17,6 @@ import {RouterModule} from "@angular/router";
 @NgModule({
     imports: [
         SeriesRoutingModule,
-        HttpClientModule,
         RouterModule,
         CommonModule,
         PagerModule

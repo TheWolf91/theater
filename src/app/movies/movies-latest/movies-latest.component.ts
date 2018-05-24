@@ -14,7 +14,7 @@ export class MoviesLatestComponent {
 
     constructor(private movieService: MovieService, private pagerService: PagerService, private route: ActivatedRoute) {
         this.route.params.subscribe(param => {
-            if (param['page']) {
+            if (param['page'] && param['page'] >= 1) {
                 this.pagerService.page = param['page'];
                 this.onLatest();
             } else {
@@ -31,6 +31,5 @@ export class MoviesLatestComponent {
                 return Observable.empty();
             })
             .subscribe((movie: Movie) => this.movies.push(this.movieService.movieFactory(movie)));
-        console.log(this.movies);
     }
 }

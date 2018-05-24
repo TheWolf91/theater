@@ -19,9 +19,12 @@
                     <h1 class="title">{{movie?.title}}</h1>
 
                     <div class="social-btn">
-                        <a href="#" class="parent-btn"><i class="fa fa-heart"></i>&nbsp;Add to Favorite</a>
-                        <a href="#" class="parent-btn"><i class="fa fa-thumbs-up"></i>&nbsp;Like</a>
+                        <a *ngIf="!inFavourites" href="javascript:void(0);" (click)="onFavourite()" class="parent-btn"><i class="fa fa-heart"></i>&nbsp;Add to Favourites</a>
+                        <a *ngIf="inFavourites" href="javascript:void(0);" (click)="onFavourite()" class="parent-btn"><i class="fa fa-heart"></i>&nbsp;Remove</a>
+                        <a *ngIf="!inLikes" href="javascript:void(0);" (click)="onLike()" class="parent-btn"><i class="fa fa-thumbs-up"></i>&nbsp;Like</a>
+                        <a *ngIf="inLikes" href="javascript:void(0);" (click)="onLike()" class="parent-btn"><i class="fa fa-thumbs-up"></i>&nbsp;Dislike</a>
                     </div>
+                    <div *ngIf="message" ngClass="{{error? 'alert alert-danger' : 'alert alert-success'}}">{{message}}</div>
 
                     <div class="rating-single">
                         <div class="rate">
