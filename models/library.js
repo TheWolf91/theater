@@ -4,13 +4,13 @@ const mongooseUniqueValidator = require('mongoose-unique-validator');
 
 const librarySchema = new Schema({
     likes: [{
-        mediaId: {type: String, required: true, unique: true},
+        mediaId: {type: String, required: true},
         mediaType: {type: String, required: true},
         title: {type: String, required: true},
         poster: {type: String}
     }],
     favourites: [{
-        mediaId: {type: String, required: true, unique: true},
+        mediaId: {type: String, required: true},
         mediaType: {type: String, required: true},
         title: {type: String, required: true},
         poster: {type: String}

@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {HttpClient} from "@angular/common/http";
-import {Movie} from "../movies/movie.model";
 import {Serie} from "./serie.model";
 import {PagerService} from "../pager/pager.service";
 import 'rxjs/Rx';
@@ -44,7 +43,7 @@ export class SerieService {
                 this.pagerService.totalPages = res['total_pages'];
                 return res['results'];
             })
-            .switchMap(movies => Observable.from(movies))
+            .switchMap(series => Observable.from(series))
             .catch(err => Observable.throw(err));
     }
 
@@ -60,7 +59,7 @@ export class SerieService {
                 this.pagerService.totalPages = res['total_pages'];
                 return res['results'];
             })
-            .switchMap(movies => Observable.from(movies))
+            .switchMap(series => Observable.from(series))
             .catch(err => Observable.throw(err));
     }
 
@@ -73,7 +72,51 @@ export class SerieService {
 
         return this.http.get(`${this.singleSerieQuery}/${id}`, {params})
             .map(res => res)
-            .catch(err => Observable.throw("Movie not found"));
+            .catch(err => Observable.throw("serie not found"));
+    }
+
+    getLike(serie: Serie) {
+        return this.http.post('http://localhost:3000/api/library/alreadyliked',
+            {
+                mediaId: serie.id.toString(),
+                mediaType: 'serie'
+            }
+        );
+    }
+
+    getFavourite(serie: Serie) {
+        return this.http.post('http://localhost:3000/api/library/alreadyfavourite',
+            {
+                mediaId: serie.id.toString(),
+                mediaType: 'serie'
+            }
+        );
+    }
+
+    setFavourite(serie: Serie) {
+        return this.http.post('http://localhost:3000/api/library/favourites', {
+            mediaId: serie.id.toString(),
+            mediaType: 'serie',
+            title: serie.name,
+            poster: serie.poster_path
+        });
+    }
+
+    setLike(serie: Serie) {
+        return this.http.post('http://localhost:3000/api/library/likes', {
+            mediaId: serie.id.toString(),
+            mediaType: 'serie',
+            title: serie.name,
+            poster: serie.poster_path
+        });
+    }
+
+    removeFavourite(serie: Serie) {
+        return this.http.delete(`http://localhost:3000/api/library/favourites?mediaId=${serie.id}&mediaType=serie`);
+    }
+
+    removeLike(serie: Serie) {
+        return this.http.delete(`http://localhost:3000/api/library/likes?mediaId=${serie.id}&mediaType=serie`);
     }
 
     serieFactory(item: Serie): Serie {

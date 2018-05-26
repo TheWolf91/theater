@@ -122,6 +122,14 @@ export class MovieService {
         });
     }
 
+    removeFavourite(movie: Movie) {
+        return this.http.delete(`http://localhost:3000/api/library/favourites?mediaId=${movie.id}&mediaType=movie`);
+    }
+
+    removeLike(movie: Movie) {
+        return this.http.delete(`http://localhost:3000/api/library/likes?mediaId=${movie.id}&mediaType=movie`);
+    }
+
     movieFactory(item: Movie): Movie {
         return new Movie(
             item.id,

@@ -184,33 +184,128 @@ router.get('/likes', passport.authenticate('jwt', {session: false}), function (r
     });
 });
 
-router.post('/alreadyfavourite', passport.authenticate('jwt', {session:false}), function (req, res) {
-    Library.aggregate([
-        {$match: {user: req.user._id}},
-        {$project: {_id: 0, mediaId: '$favourites.mediaId', mediaType: '$favourites.mediaType'}}
-    ], function (err, results) {
-        if (results[0].mediaId.indexOf(req.body.mediaId) !== -1) {
-            let n = results[0].mediaId.indexOf(req.body.mediaId);
-            if (results[0].mediaType[n] === req.body.mediaType) {
-                return res.json(true);
-            }
+router.post('/alreadyfavourite', passport.authenticate('jwt', {session: false}), function (req, res) {
+    Library.findOne({user: req.user.id}, function (err, libraryFound) {
+        if (err) {
+            return res.status(500).json({
+                title: 'An error occurred',
+                error: err
+            });
         }
-        return res.json(false);
+        if (libraryFound) {
+            Library.aggregate([
+                {$match: {user: req.user._id}},
+                {$project: {_id: 0, mediaId: '$favourites.mediaId', mediaType: '$favourites.mediaType'}}
+            ], function (err, results) {
+                if (results[0].mediaId.indexOf(req.body.mediaId) !== -1) {
+                    let n = results[0].mediaId.indexOf(req.body.mediaId);
+                    if (results[0].mediaType[n] === req.body.mediaType) {
+                        return res.json(true);
+                    }
+                }
+                return res.json(false);
+            });
+
+        } else {
+            res.status(400).send();
+        }
+
     });
 });
 
-router.post('/alreadyliked', passport.authenticate('jwt', {session:false}), function (req, res) {
+router.post('/alreadyliked', passport.authenticate('jwt', {session: false}), function (req, res) {
+    Library.findOne({user: req.user.id}, function (err, libraryFound) {
+        if (err) {
+            return res.status(500).json({
+                title: 'An error occurred',
+                error: err
+            });
+        }
+        if (libraryFound) {
+            Library.aggregate([
+                {$match: {user: req.user._id}},
+                {$project: {_id: 0, mediaId: '$likes.mediaId', mediaType: '$likes.mediaType'}}
+            ], function (err, results) {
+                if (results[0].mediaId.indexOf(req.body.mediaId) !== -1) {
+                    let n = results[0].mediaId.indexOf(req.body.mediaId);
+                    if (results[0].mediaType[n] === req.body.mediaType) {
+                        return res.json(true);
+                    }
+                }
+                return res.json(false);
+            });
+        } else {
+            res.status(400).send();
+        }
+    });
+});
+
+router.delete('/favourites', passport.authenticate('jwt', {session: false}), function (req, res) {
+    let index = null;
     Library.aggregate([
         {$match: {user: req.user._id}},
-        {$project: {_id: 0, mediaId: '$likes.mediaId', mediaType: '$likes.mediaType'}}
+        {$project: {_id: 0, empty: '$favourites.null', mediaId: '$favourites.mediaId', mediaType: '$favourites.mediaType'}}
     ], function (err, results) {
-        if (results[0].mediaId.indexOf(req.body.mediaId) !== -1) {
-            let n = results[0].mediaId.indexOf(req.body.mediaId);
-            if (results[0].mediaType[n] === req.body.mediaType) {
-                return res.json(true);
+        if (results[0].mediaId.indexOf(req.query.mediaId) !== -1) {
+            index = results[0].mediaId.indexOf(req.query.mediaId);
+            if (results[0].mediaType[index] === req.query.mediaType) {
+                // Removes nulls
+                Library.findOneAndUpdate({}, {$pull: {favourites: null}}, function (err, results) {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'An error occurred',
+                            error: err
+                        });
+                    }
+                });
+                //Remove index
+                let query = 'favourites.' + index;
+                Library.findOneAndUpdate({user: req.user.id}, {$unset: {[query]: 1}}, {new: true}, function (err, results) {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'An error occurred',
+                            error: err
+                        });
+                    }
+                    res.status(200).json({title: 'Media removed from favourites'});
+                });
             }
         }
-        return res.json(false);
+    });
+});
+
+router.delete('/likes', passport.authenticate('jwt', {session: false}), function (req, res) {
+    let index = null;
+    Library.aggregate([
+        {$match: {user: req.user._id}},
+        {$project: {_id: 0, empty: '$likes.null', mediaId: '$likes.mediaId', mediaType: '$likes.mediaType'}}
+    ], function (err, results) {
+        console.log(results);
+        if (results[0].mediaId.indexOf(req.query.mediaId) !== -1) {
+            index = results[0].mediaId.indexOf(req.query.mediaId);
+            if (results[0].mediaType[index] === req.query.mediaType) {
+                // Removes nulls
+                Library.findOneAndUpdate({}, {$pull: {likes: null}}, function (err, results) {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'An error occurred',
+                            error: err
+                        });
+                    }
+                });
+                //Remove index
+                let query = 'likes.' + index;
+                Library.findOneAndUpdate({user: req.user.id}, {$unset: {[query]: 1}}, {new: true}, function (err, results) {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'An error occurred',
+                            error: err
+                        });
+                    }
+                    res.status(200).json({title: 'Media removed from likes'});
+                });
+            }
+        }
     });
 });
 

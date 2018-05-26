@@ -58,6 +58,9 @@ export class MovieSingleComponent {
     onFavourite() {
         this.movieService.setFavourite(this.movie)
             .catch(err => {
+                if (err['error'] === 'Unauthorized') {
+                    this.router.navigate(['user', 'signin']);
+                }
                 this.message = err['error']['error'];
                 this.error = true;
                 setTimeout(() => {
@@ -67,6 +70,7 @@ export class MovieSingleComponent {
                 return Observable.empty();
             })
             .subscribe(res => {
+                this.inFavourites = true;
                 this.message = res['title'];
                 setTimeout(() => {
                     this.message = null;
@@ -77,6 +81,9 @@ export class MovieSingleComponent {
     onLike() {
         this.movieService.setLike(this.movie)
             .catch(err => {
+                if (err['error'] === 'Unauthorized') {
+                    this.router.navigate(['user', 'signin']);
+                }
                 this.message = err['error']['error'];
                 this.error = true;
                 setTimeout(() => {
@@ -86,11 +93,48 @@ export class MovieSingleComponent {
                 return Observable.empty();
             })
             .subscribe(res => {
+                this.inLikes = true;
                 this.message = res['title'];
                 setTimeout(() => {
                     this.message = null;
                 }, 4000);
             });
+    }
+
+    onRemoveFavourite() {
+        this.movieService.removeFavourite(this.movie)
+            .catch(err => {
+                if (err['error'] === 'Unauthorized') {
+                    this.router.navigate(['user', 'signin']);
+                }
+                return Observable.empty();
+            })
+            .subscribe(res => {
+            this.message = res['title'];
+            this.inFavourites = false;
+            setTimeout(() => {
+                this.message = null;
+            }, 4000);
+            }
+        );
+    }
+
+    onRemoveLike() {
+        this.movieService.removeLike(this.movie)
+            .catch(err => {
+                if (err['error'] === 'Unauthorized') {
+                    this.router.navigate(['user', 'signin']);
+                }
+                return Observable.empty();
+            })
+            .subscribe(res => {
+                this.message = res['title'];
+                this.inLikes = false;
+            setTimeout(() => {
+                this.message = null;
+            }, 4000);
+            }
+        );
     }
 
     openVerticallyCentered(content: NgTemplateOutlet) {
