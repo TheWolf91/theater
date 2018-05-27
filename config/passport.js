@@ -1,6 +1,5 @@
 let JwtStrategy = require('passport-jwt').Strategy;
 let ExtractJwt = require('passport-jwt').ExtractJwt;
-let keys = require('../config/keys');
 let mongoose = require('mongoose');
 let User = mongoose.model('User');
 

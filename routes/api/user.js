@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const mailKeys = require('../../keys');
 const passport = require('passport');
-const keys = require('../../config/keys');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const hbs = require('nodemailer-express-handlebars');
