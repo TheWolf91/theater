@@ -69,6 +69,7 @@ typings/
 /.idea
 /public/*.js
 /public/*.map
+/public/images
 /keys.json
 /config/keys.js
 /dist

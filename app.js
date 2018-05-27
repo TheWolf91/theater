@@ -5,12 +5,16 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let mongoose = require('mongoose');
 let passport = require('passport');
+let favicon = require('serve-favicon');
 
 let indexRouter = require('./routes/index');
 let userRouter = require('./routes/api/user');
 let libraryRouter = require('./routes/api/library');
 
 let app = express();
+// Set favicon
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
+
 let port = process.env.PORT || 27017;
 
 mongoose.connect(process.env.mongoURI || 'mongodb://localhost:27017/theater');

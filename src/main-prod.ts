@@ -4,6 +4,7 @@ import {AppModule} from "./app/app.module";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import '../assets/stylesheets/style.css';
+import '../assets/images/favicon.ico';
 import {enableProdMode} from "@angular/core";
 
 enableProdMode();
