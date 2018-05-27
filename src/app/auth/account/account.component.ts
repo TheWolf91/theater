@@ -104,7 +104,7 @@ export class AccountComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.http.get('http://localhost:3000/api/user/account')
+        this.http.get('https://angular-theater.herokuapp.com/api/user/account')
             .catch(err => {
                 return Observable.empty();
             })

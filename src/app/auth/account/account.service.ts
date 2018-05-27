@@ -8,18 +8,18 @@ export class AccountService {
     constructor(private http: HttpClient) {}
 
     activateUser(token: string) {
-        return this.http.post('http://localhost:3000/api/user/confirmation', {token});
+        return this.http.post('https://angular-theater.herokuapp.com/api/user/confirmation', {token});
     }
 
     resendActivation() {
-        return this.http.get('http://localhost:3000/api/user/resend');
+        return this.http.get('https://angular-theater.herokuapp.com/api/user/resend');
     }
 
     updateUser(user: User) {
-        return this.http.put('http://localhost:3000/api/user/account', user);
+        return this.http.put('https://angular-theater.herokuapp.com/api/user/account', user);
     }
 
     changePassword(oldPassword: string, password: string, confirmPassword:string) {
-        return this.http.put('http://localhost:3000/api/user/account/password', {oldPassword, password, confirmPassword});
+        return this.http.put('https://angular-theater.herokuapp.com/api/user/account/password', {oldPassword, password, confirmPassword});
     }
 }

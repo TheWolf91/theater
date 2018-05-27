@@ -76,7 +76,7 @@ export class SerieService {
     }
 
     getLike(serie: Serie) {
-        return this.http.post('http://localhost:3000/api/library/alreadyliked',
+        return this.http.post('https://angular-theater.herokuapp.com/api/library/alreadyliked',
             {
                 mediaId: serie.id.toString(),
                 mediaType: 'serie'
@@ -85,7 +85,7 @@ export class SerieService {
     }
 
     getFavourite(serie: Serie) {
-        return this.http.post('http://localhost:3000/api/library/alreadyfavourite',
+        return this.http.post('https://angular-theater.herokuapp.com/api/library/alreadyfavourite',
             {
                 mediaId: serie.id.toString(),
                 mediaType: 'serie'
@@ -94,7 +94,7 @@ export class SerieService {
     }
 
     setFavourite(serie: Serie) {
-        return this.http.post('http://localhost:3000/api/library/favourites', {
+        return this.http.post('https://angular-theater.herokuapp.com/api/library/favourites', {
             mediaId: serie.id.toString(),
             mediaType: 'serie',
             title: serie.name,
@@ -103,7 +103,7 @@ export class SerieService {
     }
 
     setLike(serie: Serie) {
-        return this.http.post('http://localhost:3000/api/library/likes', {
+        return this.http.post('https://angular-theater.herokuapp.com/api/library/likes', {
             mediaId: serie.id.toString(),
             mediaType: 'serie',
             title: serie.name,
@@ -112,11 +112,11 @@ export class SerieService {
     }
 
     removeFavourite(serie: Serie) {
-        return this.http.delete(`http://localhost:3000/api/library/favourites?mediaId=${serie.id}&mediaType=serie`);
+        return this.http.delete(`https://angular-theater.herokuapp.com/api/library/favourites?mediaId=${serie.id}&mediaType=serie`);
     }
 
     removeLike(serie: Serie) {
-        return this.http.delete(`http://localhost:3000/api/library/likes?mediaId=${serie.id}&mediaType=serie`);
+        return this.http.delete(`https://angular-theater.herokuapp.com/api/library/likes?mediaId=${serie.id}&mediaType=serie`);
     }
 
     serieFactory(item: Serie): Serie {

@@ -87,7 +87,7 @@ export class MovieService {
     }
 
     getLike(movie: Movie) {
-        return this.http.post('http://localhost:3000/api/library/alreadyliked',
+        return this.http.post('https://angular-theater.herokuapp.com/api/library/alreadyliked',
             {
                 mediaId: movie.id.toString(),
                 mediaType: 'movie'
@@ -96,7 +96,7 @@ export class MovieService {
     }
 
     getFavourite(movie: Movie) {
-        return this.http.post('http://localhost:3000/api/library/alreadyfavourite',
+        return this.http.post('https://angular-theater.herokuapp.com/api/library/alreadyfavourite',
             {
                 mediaId: movie.id.toString(),
                 mediaType: 'movie'
@@ -105,7 +105,7 @@ export class MovieService {
     }
 
     setFavourite(movie: Movie) {
-        return this.http.post('http://localhost:3000/api/library/favourites', {
+        return this.http.post('https://angular-theater.herokuapp.com/api/library/favourites', {
             mediaId: movie.id.toString(),
             mediaType: 'movie',
             title: movie.title,
@@ -114,7 +114,7 @@ export class MovieService {
     }
 
     setLike(movie: Movie) {
-        return this.http.post('http://localhost:3000/api/library/likes', {
+        return this.http.post('https://angular-theater.herokuapp.com/api/library/likes', {
             mediaId: movie.id.toString(),
             mediaType: 'movie',
             title: movie.title,
@@ -123,11 +123,11 @@ export class MovieService {
     }
 
     removeFavourite(movie: Movie) {
-        return this.http.delete(`http://localhost:3000/api/library/favourites?mediaId=${movie.id}&mediaType=movie`);
+        return this.http.delete(`https://angular-theater.herokuapp.com/api/library/favourites?mediaId=${movie.id}&mediaType=movie`);
     }
 
     removeLike(movie: Movie) {
-        return this.http.delete(`http://localhost:3000/api/library/likes?mediaId=${movie.id}&mediaType=movie`);
+        return this.http.delete(`https://angular-theater.herokuapp.com/api/library/likes?mediaId=${movie.id}&mediaType=movie`);
     }
 
     movieFactory(item: Movie): Movie {
