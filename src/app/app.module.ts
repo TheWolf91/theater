@@ -30,7 +30,7 @@ import {NgProgressHttpModule} from "@ngx-progressbar/http";
                 tokenGetter: () => {
                     return localStorage.getItem('token');
                 },
-                whitelistedDomains: ['localhost:3000']
+                whitelistedDomains: ['https://angular-theater.herokuapp.com']
             }
         })
     ],
