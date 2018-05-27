@@ -67,8 +67,8 @@ typings/
 
 #WebStorm
 /.idea
-/public/javascripts/*.js
-/public/javascripts/*.map
+/public/*.js
+/public/*.map
 /keys.json
 /config/keys.js
 /dist

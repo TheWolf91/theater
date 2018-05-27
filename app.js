@@ -13,7 +13,7 @@ let libraryRouter = require('./routes/api/library');
 let app = express();
 let port = process.env.PORT || 27017;
 
-mongoose.connect(process.env.mongoURI);
+mongoose.connect(process.env.mongoURI || 'mongodb://localhost:27017/theater');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

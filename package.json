@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "build": "del-cli public/javascripts && webpack --config webpack.config.dev.js --progress --profile --watch",
-    "build-prod": "del-cli dist && webpack -p --config webpack.config.prod.js --progress --mode production"
+    "build": "del-cli public/*.js public/*.map && webpack --config webpack.config.dev.js --progress --profile --watch",
+    "build-prod": "del-cli public/*.js public/*.map && webpack -p --config webpack.config.prod.js --progress --mode production",
+    "postinstall": "webpack -p --config webpack.config.prod.js --progress --mode production"
   },
   "dependencies": {
     "@angular/common": "^5.2.10",
