@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const mailKeys = require('../../keys');
 const passport = require('passport');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
@@ -64,8 +63,8 @@ router.post('/signup', function (req, res) {
             }
             // Send the email
             let transporter = nodemailer.createTransport({
-                host: mailKeys.host,
-                auth: {user: mailKeys.user, pass: mailKeys.password}
+                host: process.env.emailHost,
+                auth: {user: process.env.emailUser, pass: process.env.emailPassword}
             });
             // Set email template
             transporter.use('compile', hbs({
@@ -73,7 +72,7 @@ router.post('/signup', function (req, res) {
                 extName: '.hbs'
             }));
             let mailOptions = {
-                from: mailKeys.email, to: user.email, subject: 'Theater - Activate your account',
+                from: process.env.emailEmail, to: user.email, subject: 'Theater - Activate your account',
                 template: 'account-activation',
                 context: {
                     activationLink: 'http://' + req.headers.host + '/user/confirmation/' + verificationToken.token,
@@ -292,8 +291,8 @@ router.get('/resend', passport.authenticate('jwt', {session: false}), function (
         });
         //Send the email
         let transporter = nodemailer.createTransport({
-            host: mailKeys.host,
-            auth: {user: mailKeys.user, pass: mailKeys.password}
+            host: process.env.emailHost,
+            auth: {user: process.env.emailUser, pass: process.env.emailPassword}
         });
         // Set email template
         transporter.use('compile', hbs({
@@ -301,7 +300,7 @@ router.get('/resend', passport.authenticate('jwt', {session: false}), function (
             extName: '.hbs'
         }));
         let mailOptions = {
-            from: mailKeys.email, to: user.email, subject: 'Theater - Activate your account',
+            from: process.env.emailEmail, to: user.email, subject: 'Theater - Activate your account',
             template: 'account-activation',
             context: {
                 activationLink: 'http://' + req.headers.host + '/user/confirmation/' + verificationToken.token,
