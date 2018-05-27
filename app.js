@@ -5,7 +5,6 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let mongoose = require('mongoose');
 let passport = require('passport');
-let keys = require('./config/keys');
 
 let indexRouter = require('./routes/index');
 let userRouter = require('./routes/api/user');
