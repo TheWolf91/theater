@@ -303,7 +303,7 @@ router.get('/resend', passport.authenticate('jwt', {session: false}), function (
             from: process.env.emailEmail, to: user.email, subject: 'Theater - Activate your account',
             template: 'account-activation',
             context: {
-                activationLink: 'http://' + req.headers.host + '/user/confirmation/' + verificationToken.token,
+                activationLink: 'https://' + req.headers.host + '/user/confirmation/' + verificationToken.token,
                 username: req.body.username
             },
         };
