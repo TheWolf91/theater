@@ -21,7 +21,7 @@ module.exports = function validateSignupInput(data) {
         errors.email = 'Email is not valid';
     }
 
-    if (!Validator.isLength(data.password, {min: 8, max: 10})) {
+    if (!Validator.isLength(data.password, {min: 8, max: 16})) {
         errors.password = 'Password length must be between 8 and 16';
     }
 
