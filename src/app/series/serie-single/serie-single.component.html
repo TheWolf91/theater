@@ -4,7 +4,7 @@
 
             <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="poster-image sticky">
-                    <img src="{{serie?.poster_path? 'https://image.tmdb.org/t/p/w342/' + serie.poster_path : 'http://via.placeholder.com/342x513?text=No%20Poster%20Image'}}"
+                    <img src="{{serie?.poster_path? 'https://image.tmdb.org/t/p/w342/' + serie.poster_path : 'https://via.placeholder.com/342x513?text=No%20Poster%20Image'}}"
                          alt="Poster">
                 </div>
                 <div class="poster-buttons" *ngIf="serie?.videos['results'].length != 0">
@@ -50,7 +50,7 @@
                                         <div class="cast-item" *ngFor="let cast of serie?.credits['cast'] | slice:0:7">
                                             <div class="cast-it">
                                                 <div class="cast-left">
-                                                    <img src="{{cast['profile_path']? 'https://image.tmdb.org/t/p/w45' + cast['profile_path'] : 'http://via.placeholder.com/45x45?text=No%20Profile%20Image'}}" alt="Actor picture">
+                                                    <img src="{{cast['profile_path']? 'https://image.tmdb.org/t/p/w45' + cast['profile_path'] : 'https://via.placeholder.com/45x45?text=No%20Profile%20Image'}}" alt="Actor picture">
                                                     <p class="actor" data-toggle="tooltip" data-placement="top" title="{{cast['name']}}">&nbsp;{{cast['name'].length > 20 ? (cast['name'] | slice:0:20) + '...' : cast['name']}}</p>
                                                 </div>
                                                 <p class="character" data-toggle="tooltip" data-placement="top" title="{{cast['character']}}"> as {{cast['character'].length > 20 ? (cast['character'].indexOf('/') > 0 ? cast['character'].substring(0, cast['character'].indexOf('/')) : (cast['character'] | slice:0:20) + '...') : cast['character']}}</p>
