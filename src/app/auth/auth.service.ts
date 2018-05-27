@@ -14,14 +14,14 @@ export class AuthService {
         let headers: HttpHeaders = new HttpHeaders();
         headers.set('Content-type', 'application/json');
 
-        return this.http.post('http://localhost:3000/api/user/signup', user, {headers: headers});
+        return this.http.post('https://angular-theater.herokuapp.com/api/user/signup', user, {headers: headers});
     }
 
     signin(user: User) {
         let headers: HttpHeaders = new HttpHeaders();
         headers.set('Content-type', 'application/json');
 
-        return this.http.post('http://localhost:3000/api/user/signin', user, {headers: headers});
+        return this.http.post('https://angular-theater.herokuapp.com/api/user/signin', user, {headers: headers});
     }
 
     public getToken(): string {

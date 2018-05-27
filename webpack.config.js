@@ -2,7 +2,6 @@ let webpack = require('webpack');
 
 module.exports = {
     devtool: "cheap-module-source-map",
-    entry: './src/main.ts',
 
     resolve: {
         extensions: ['.js', '.ts']

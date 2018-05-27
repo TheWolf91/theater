@@ -5,6 +5,7 @@ const commonConfig = require('./webpack.config.js');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = webpackMerge.smart(commonConfig, {
+    entry: './src/main-prod.ts',
     output: {
         path: __dirname + '/public',
         filename: 'bundle.js',
