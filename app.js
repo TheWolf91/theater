@@ -14,7 +14,7 @@ let libraryRouter = require('./routes/api/library');
 let app = express();
 let port = process.env.PORT || 27017;
 
-mongoose.connect(keys.mongoURI);
+mongoose.connect(process.env.mongoURI);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -124,7 +124,7 @@ router.post('/signin', function (req, res) {
             });
         }
         let payload = {id: user._id, username: user.username, email: user.email};
-        let token = jwt.sign(payload, keys.secretOrKey, {expiresIn: 7200});
+        let token = jwt.sign(payload, process.env.secretOrKey, {expiresIn: 7200});
         res.status(200).json({
             message: 'Successfully logged in',
             token: token,
