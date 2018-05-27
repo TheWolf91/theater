@@ -5,6 +5,7 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let mongoose = require('mongoose');
 let passport = require('passport');
+let keys = require('./config/keys');
 
 let indexRouter = require('./routes/index');
 let userRouter = require('./routes/api/user');
@@ -13,7 +14,7 @@ let libraryRouter = require('./routes/api/library');
 let app = express();
 let port = process.env.PORT || 27017;
 
-mongoose.connect('mongodb://localhost:27017/theater');
+mongoose.connect(keys.mongoURI);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
